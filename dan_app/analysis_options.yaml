@@ -1,0 +1,12 @@
+include: package:lint/analysis_options.yaml
+
+analyzer:
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+
+linter:
+  rules:
+    avoid_redundant_argument_values: false
+    prefer_const_constructors: false
+    sort_pub_dependencies: false
