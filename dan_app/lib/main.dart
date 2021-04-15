@@ -16,9 +16,17 @@ class App extends StatelessWidget {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Center(
-        child: Text('Hi'),
+    return Scaffold(appBar: AppBar(
+      title: Text('Dan'),
+      actions: [IconButton(icon: Icon(Icons.settings), onPressed: () {},),],
+    ),
+      body: Center(),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Stories'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        ],
       ),
     );
   }
