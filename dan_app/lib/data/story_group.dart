@@ -1,17 +1,14 @@
-class StoryGroupList {
-  List<StoryGroup> groups = <StoryGroup>[];
-}
 
 class StoryGroup {
   final String groupName;
 
   List<Story> stories = <Story>[];
 
-  StoryGroup(this.groupName);
+  StoryGroup({required this.groupName, required this.stories});
 }
 
 class Story {
   final String storyName;
 
-  Story(this.storyName);
+  Story({required this.storyName});
 }
