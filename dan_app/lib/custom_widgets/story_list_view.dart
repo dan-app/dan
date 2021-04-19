@@ -12,7 +12,7 @@ class StoryListView extends StatelessWidget {
     return SliverStickyHeader.builder(
       builder: (context, state) => Container(
         height: 60.0,
-        color: (state.isPinned ? Colors.pink : Colors.lightBlue)
+        color: Colors.lightBlue
             .withOpacity(1.0 - state.scrollPercentage),
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         alignment: Alignment.centerLeft,
@@ -22,18 +22,20 @@ class StoryListView extends StatelessWidget {
         ),
       ),
       sliver: SliverGrid(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 200.0,
-          mainAxisSpacing: 10.0,
-          crossAxisSpacing: 10.0,
-          childAspectRatio: 4.0,
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200
         ),
         delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-            return Container(
-              alignment: Alignment.center,
-              color: Colors.teal[100 * (index % 9)],
-              child: Text(group.stories.elementAt(index).storyName),
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Container(
+                  alignment: Alignment.center,
+                  color: Colors.teal[100 * (index % 9)],
+                  child: Text(group.stories.elementAt(index).storyName),
+                ),
+              ),
             );
           },
           childCount: group.stories.length,

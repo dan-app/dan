@@ -1,5 +1,6 @@
 import 'package:dan_app/custom_widgets/story_list_view.dart';
 import 'package:dan_app/data/mockup_data.dart';
+import 'package:dan_app/pages/stories_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     Center(
       child: Text("Home"),
     ),
-    StoryListView(MockupData.storyGroupMockup),
+    StoriesPage(),
     Center(
       child: Text("Profile"),
     ),
