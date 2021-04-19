@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "812585695324",
+    "project_id": "dan-app-dev",
+    "storage_bucket": "dan-app-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812585695324:android:de3131d02ace663445ce99",
+        "android_client_info": {
+          "package_name": "app.dan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "812585695324-1eqg4jpuls17es0t4b93jgoihjb5f6r4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaQgn4DjqqMk5jo4giAUBE_7IWtTZeB4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "812585695324-1eqg4jpuls17es0t4b93jgoihjb5f6r4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "812585695324-rvje030t1vh8bnllog484rpftu71qul0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.dan"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
