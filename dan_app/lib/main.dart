@@ -1,6 +1,7 @@
 import 'package:dan_app/pages/base_page.dart';
 import 'package:dan_app/pages/login_page.dart';
 import 'package:dan_app/pages/registration_page.dart';
+import 'package:dan_app/pages/settings_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,8 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   bool registerOpened = false;
+  bool settingsOpened = false;
+  final _navigatorKey = GlobalKey<NavigatorState>();
 
   void onRegisterChanged() {
     setState(() {
@@ -34,28 +37,60 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  void onSettingsChanged() {
+    setState(() {
+      settingsOpened = !settingsOpened;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      pages: [
-        if (FirebaseAuth.instance.currentUser == null)
-          MaterialPage<LoginPage>(
-            key: ValueKey('LoginPage'),
-            child: LoginPage(
-              registerChangedCallback: onRegisterChanged,
-            ),
-          ),
-        if (registerOpened)
-          MaterialPage<RegistrationPage>(
-            child: RegistrationPage(),
-            key: ValueKey('RegistrationPage'),
-          ),
-        MaterialPage<BasePage>(
-          key: ValueKey('HomePage'),
-          child: BasePage(),
-        ),
-      ],
-      onPopPage: (route, dynamic result) => route.didPop(result),
+    return WillPopScope(
+      onWillPop: () async => !await _navigatorKey.currentState!.maybePop(),
+      child: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+          return Navigator(
+            key: _navigatorKey,
+            pages: [
+              if (snapshot.data == null) ...[
+                MaterialPage<LoginPage>(
+                  key: ValueKey('LoginPage'),
+                  child: LoginPage(
+                    registerChangedCallback: onRegisterChanged,
+                  ),
+                ),
+                if (registerOpened)
+                  MaterialPage<RegistrationPage>(
+                    child: RegistrationPage(),
+                    key: ValueKey('RegistrationPage'),
+                  ),
+              ] else ...[
+                MaterialPage<BasePage>(
+                  key: ValueKey('BasePage'),
+                  child: BasePage(onSettingsPressed: onSettingsChanged),
+                ),
+                if (settingsOpened)
+                  MaterialPage<SettingsPage>(
+                    key: ValueKey('SettingsPage'),
+                    child: SettingsPage(
+                      settingsPressedCallback: onSettingsChanged,
+                    ),
+                  ),
+              ],
+            ],
+            onPopPage: (route, dynamic result) {
+              if (!route.didPop(result)) return false;
+              if (settingsOpened) {
+                setState(() {
+                  settingsOpened = !settingsOpened;
+                });
+              }
+              return true;
+            },
+          );
+        },
+      ),
     );
   }
 }

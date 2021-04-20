@@ -1,10 +1,12 @@
-import 'package:dan_app/pages/base_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
   final Function registerChangedCallback;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
-  const LoginPage({required this.registerChangedCallback});
+  LoginPage({required this.registerChangedCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +17,15 @@ class LoginPage extends StatelessWidget {
           children: [
             TextField(
               obscureText: true,
+              keyboardType: TextInputType.emailAddress,
+              controller: emailController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Логин',
               ),
             ),
             TextField(
+              controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -32,10 +37,9 @@ class LoginPage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute<BasePage>(builder: (context) => BasePage()),
-                );
+                FirebaseAuth.instance.signInWithEmailAndPassword(
+                    email: emailController.text,
+                    password: passwordController.text);
               },
               child: Text("Войти"),
             ),

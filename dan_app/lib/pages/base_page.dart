@@ -1,9 +1,12 @@
 import 'package:dan_app/pages/home_page.dart';
-import 'package:dan_app/pages/settings_page.dart';
 import 'package:dan_app/pages/stories_page.dart';
 import 'package:flutter/material.dart';
 
 class BasePage extends StatefulWidget {
+  final Function onSettingsPressed;
+
+  const BasePage({required this.onSettingsPressed});
+
   @override
   _BasePageState createState() => _BasePageState();
 }
@@ -27,16 +30,7 @@ class _BasePageState extends State<BasePage> {
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push<SettingsPage>(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return SettingsPage();
-                  },
-                ),
-              );
-            },
+            onPressed: () => widget.onSettingsPressed(),
           ),
         ],
       ),
