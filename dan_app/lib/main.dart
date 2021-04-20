@@ -1,4 +1,4 @@
-import 'package:dan_app/pages/home_page.dart';
+import 'package:dan_app/pages/base_page.dart';
 import 'package:dan_app/pages/login_page.dart';
 import 'package:dan_app/pages/registration_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,9 +50,9 @@ class _MainPageState extends State<MainPage> {
             child: RegistrationPage(),
             key: ValueKey('RegistrationPage'),
           ),
-        MaterialPage<HomePage>(
+        MaterialPage<BasePage>(
           key: ValueKey('HomePage'),
-          child: HomePage(),
+          child: BasePage(),
         ),
       ],
       onPopPage: (route, dynamic result) => route.didPop(result),

@@ -1,4 +1,4 @@
-import 'package:dan_app/pages/home_page.dart';
+import 'package:dan_app/pages/base_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute<HomePage>(builder: (context) => HomePage()),
+                  MaterialPageRoute<BasePage>(builder: (context) => BasePage()),
                 );
               },
               child: Text("Войти"),
