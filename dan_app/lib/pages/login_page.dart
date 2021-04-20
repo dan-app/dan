@@ -1,9 +1,11 @@
 import 'package:dan_app/pages/home_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
-  static bool goToRegister = false;
+  final Function registerChangedCallback;
+
+  const LoginPage({required this.registerChangedCallback});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +32,6 @@ class LoginPage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                FirebaseAuth auth = FirebaseAuth.instance;
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute<HomePage>(builder: (context) => HomePage()),
@@ -40,10 +41,7 @@ class LoginPage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute<HomePage>(builder: (context) => HomePage()),
-                );
+                registerChangedCallback();
               },
               child: Text("Зарегистрироватся"),
             ),

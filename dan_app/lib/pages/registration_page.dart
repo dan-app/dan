@@ -14,6 +14,8 @@ class RegistrationPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              keyboardType: TextInputType.emailAddress,
+              controller: emailController,
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -21,6 +23,7 @@ class RegistrationPage extends StatelessWidget {
               ),
             ),
             TextField(
+              controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -28,6 +31,7 @@ class RegistrationPage extends StatelessWidget {
               ),
             ),
             TextField(
+              controller: passwordConfirmController,
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -45,6 +49,7 @@ class RegistrationPage extends StatelessWidget {
                         .createUserWithEmailAndPassword(
                             email: emailController.text,
                             password: passwordController.text);
+                    print(userCredential);
                   } catch (e) {
                     print(e);
                   }
