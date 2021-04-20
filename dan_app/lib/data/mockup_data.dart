@@ -1,4 +1,11 @@
+import 'package:dan_app/data/dan_theme.dart';
 import 'package:dan_app/data/story_group.dart';
+
+const dummyThemes = [
+  DanTheme(id: 'basics', name: 'Basics', tasksCount: 3),
+  DanTheme(id: 'family', name: 'My family', tasksCount: 4),
+  DanTheme(id: 'places', name: 'Places', tasksCount: 5),
+];
 
 class MockupData {
   static var storyGroupMockup = <StoryGroup>[
