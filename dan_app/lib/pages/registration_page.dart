@@ -1,11 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class RegistrationPage extends StatelessWidget {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final passwordConfirmController = TextEditingController();
+class RegistrationPage extends StatefulWidget {
+  @override
+  _RegistrationPageState createState() => _RegistrationPageState();
+}
 
+class _RegistrationPageState extends State<RegistrationPage> {
+  final emailController = TextEditingController();
+
+  final passwordController = TextEditingController();
+
+  final passwordConfirmController = TextEditingController();
+  bool progressVisible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +23,6 @@ class RegistrationPage extends StatelessWidget {
             TextField(
               keyboardType: TextInputType.emailAddress,
               controller: emailController,
-              obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Email',
@@ -45,17 +51,23 @@ class RegistrationPage extends StatelessWidget {
               onPressed: () async {
                 if (passwordConfirmController.text == passwordController.text) {
                   try {
-                    UserCredential userCredential = await FirebaseAuth.instance
-                        .createUserWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text);
-                    print(userCredential);
+                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
                   } catch (e) {
-                    print(e);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Что-то пошло не так'),
+                      ),
+                    );
                   }
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Пароли не совпадают!')));
+                    SnackBar(
+                      content: Text('Пароли не совпадают!'),
+                    ),
+                  );
                 }
               },
               child: Text("Зарегистрироватся"),

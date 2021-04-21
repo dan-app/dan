@@ -1,12 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   final Function registerChangedCallback;
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
 
-  LoginPage({required this.registerChangedCallback});
+  const LoginPage({required this.registerChangedCallback});
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final emailController = TextEditingController();
+  bool progressVisible = false;
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +23,6 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              obscureText: true,
               keyboardType: TextInputType.emailAddress,
               controller: emailController,
               decoration: InputDecoration(
@@ -36,19 +42,52 @@ class LoginPage extends StatelessWidget {
               height: 50,
             ),
             TextButton(
-              onPressed: () {
-                FirebaseAuth.instance.signInWithEmailAndPassword(
-                    email: emailController.text,
-                    password: passwordController.text);
+              onPressed: () async {
+                if (emailController.text != '' &&
+                    passwordController.text != '') {
+                  setState(() {
+                    progressVisible = true;
+                  });
+                  try {
+                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+                  } on FirebaseAuthException {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content:
+                            Text('Проверьте корректность введённых данных'),
+                      ),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Что-то пошло не так'),
+                      ),
+                    );
+                  } finally {
+                    setState(() {
+                      progressVisible = false;
+                    });
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Не все поля заполнены!'),
+                    ),
+                  );
+                }
               },
               child: Text("Войти"),
             ),
             TextButton(
               onPressed: () {
-                registerChangedCallback();
+                widget.registerChangedCallback();
               },
               child: Text("Зарегистрироватся"),
             ),
+            if (progressVisible) CircularProgressIndicator(),
           ],
         ),
       ),

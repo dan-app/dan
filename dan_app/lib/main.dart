@@ -2,6 +2,7 @@ import 'package:dan_app/pages/base_page.dart';
 import 'package:dan_app/pages/login_page.dart';
 import 'package:dan_app/pages/registration_page.dart';
 import 'package:dan_app/pages/settings_page.dart';
+import 'package:dan_app/pages/task_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,8 @@ class _MainPageState extends State<MainPage> {
   bool registerOpened = false;
   bool settingsOpened = false;
   final _navigatorKey = GlobalKey<NavigatorState>();
+  int themeNumber = 0;
+  int taskNumber = 0;
 
   void onRegisterChanged() {
     setState(() {
@@ -38,6 +41,18 @@ class _MainPageState extends State<MainPage> {
   }
 
   void onSettingsChanged() {
+    setState(() {
+      settingsOpened = !settingsOpened;
+    });
+  }
+
+  void onTaskOpened({required int taskNumber, required int themeNumber}) {
+    setState(() {
+      settingsOpened = !settingsOpened;
+    });
+  }
+
+  void onTheoryOpened() {
     setState(() {
       settingsOpened = !settingsOpened;
     });
@@ -75,6 +90,13 @@ class _MainPageState extends State<MainPage> {
                     key: ValueKey('SettingsPage'),
                     child: SettingsPage(
                       settingsPressedCallback: onSettingsChanged,
+                    ),
+                  ),
+                if (themeNumber != 0)
+                  MaterialPage<TaskPage>(
+                    key: ValueKey('TaskPage'),
+                    child: TaskPage(
+                      taskNumber: taskNumber,
                     ),
                   ),
               ],

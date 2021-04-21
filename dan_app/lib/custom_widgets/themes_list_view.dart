@@ -15,35 +15,39 @@ class ThemesListView extends StatelessWidget {
               child: ListTile(
                 onTap: () {
                   showDialog<dynamic>(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                            title: Text(e.name),
-                            content: Text("Что-то умное надо написать"),
-                            actions: <Widget>[
-                              Column(
-                                children: [
-                                  TextButton(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      title: Text(e.name),
+                      content: Text("Что-то умное надо написать"),
+                      actions: <Widget>[
+                        Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              child: Text('Теория'),
+                            ),
+                            Row(
+                              children: [
+                                ...List<TextButton>.generate(
+                                  e.tasksCount,
+                                  (i) => TextButton(
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size(30, 30),
+                                    ),
                                     onPressed: () {},
-                                    child: Text('Теория'),
+                                    child: Text(
+                                      (i + 1).toString(),
+                                    ),
                                   ),
-                                  Row(
-                                    children: [
-                                      ...List<TextButton>.generate(
-                                        e.tasksCount,
-                                        (i) => TextButton(
-                                            style: TextButton.styleFrom(
-                                              padding: EdgeInsets.zero,
-                                              minimumSize: Size(30, 30),
-                                            ),
-                                            onPressed: () {},
-                                            child: Text((i + 1).toString())),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
-                          ));
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
                 },
                 leading: FlutterLogo(),
                 title: Text('One-line with leading widget'),
