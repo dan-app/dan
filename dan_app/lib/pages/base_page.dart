@@ -8,7 +8,10 @@ class BasePage extends StatefulWidget {
   final List<Widget> pages;
   final List<BottomNavigationBarItem> items;
 
-  const BasePage({required this.onSettingsPressed, required this.pages, required this.items});
+  const BasePage(
+      {required this.onSettingsPressed,
+      required this.pages,
+      required this.items});
 
   @override
   _BasePageState createState() => _BasePageState();
@@ -16,7 +19,6 @@ class BasePage extends StatefulWidget {
 
 class _BasePageState extends State<BasePage> {
   int _selectedIndex = 0;
-
 
   @override
   Widget build(BuildContext context) {

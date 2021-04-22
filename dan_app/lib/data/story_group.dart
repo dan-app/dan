@@ -1,4 +1,3 @@
-
 class StoryGroup {
   final String groupName;
 

@@ -20,7 +20,9 @@ class _TaskPageState extends State<TaskPage> {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('themes')
         .doc(widget.taskNumber.toString())
-        .update(<String, String>{'done': (widget.taskNumber + 1).toString()}).then((value) {
+        .update(<String, String>{
+      'done': (widget.taskNumber + 1).toString()
+    }).then((value) {
       widget.taskDoneCallback(0);
     }).catchError(
       (dynamic error) {
@@ -37,7 +39,6 @@ class _TaskPageState extends State<TaskPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -45,8 +46,9 @@ class _TaskPageState extends State<TaskPage> {
               onPressed: () {
                 updateUser(FirebaseFirestore.instance.collection('users'));
               },
-
-              child: Center(child: Text("Готово!"),),
+              child: Center(
+                child: Text("Готово!"),
+              ),
             ),
             if (progressVisible) CircularProgressIndicator(),
           ],

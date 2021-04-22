@@ -1,4 +1,3 @@
-
 import 'package:dan_app/data/story_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
@@ -12,8 +11,7 @@ class StoryListView extends StatelessWidget {
     return SliverStickyHeader.builder(
       builder: (context, state) => Container(
         height: 60.0,
-        color: Colors.lightBlue
-            .withOpacity(1.0 - state.scrollPercentage),
+        color: Colors.lightBlue.withOpacity(1.0 - state.scrollPercentage),
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         alignment: Alignment.centerLeft,
         child: Text(
@@ -22,10 +20,10 @@ class StoryListView extends StatelessWidget {
         ),
       ),
       sliver: SliverGrid(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200
-        ),
+        gridDelegate:
+            SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200),
         delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
+          (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: ClipRRect(
@@ -47,8 +45,7 @@ class StoryListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-      slivers: data.map((group) => makeGroup(group)).toList()
-      ,
+      slivers: data.map((group) => makeGroup(group)).toList(),
     );
   }
 }

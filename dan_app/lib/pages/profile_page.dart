@@ -23,7 +23,6 @@ class ProfilePage extends StatelessWidget {
                 child: CircleAvatar(),
               ),
             ],
-            
           )
         ],
       ),

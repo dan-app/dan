@@ -94,7 +94,8 @@ class _MainPageState extends State<MainPage> {
                     pages: <Widget>[
                       HomePage(
                         data: dummyThemes,
-                        taskOpenedCallback: onTaskOpened, theoryOpenedCallback: onTheoryOpened,
+                        taskOpenedCallback: onTaskOpened,
+                        theoryOpenedCallback: onTheoryOpened,
                       ),
                       StoriesPage(),
                       Center(
@@ -103,11 +104,17 @@ class _MainPageState extends State<MainPage> {
                     ],
                     items: [
                       BottomNavigationBarItem(
-                          icon: Icon(Icons.home), label: 'Home'),
+                        icon: Icon(Icons.home),
+                        label: 'Home',
+                      ),
                       BottomNavigationBarItem(
-                          icon: Icon(Icons.book), label: 'Stories'),
+                        icon: Icon(Icons.book),
+                        label: 'Stories',
+                      ),
                       BottomNavigationBarItem(
-                          icon: Icon(Icons.person), label: 'Profile'),
+                        icon: Icon(Icons.person),
+                        label: 'Profile',
+                      ),
                     ],
                   ),
                 ),
@@ -121,8 +128,7 @@ class _MainPageState extends State<MainPage> {
                 if (theoryId != '')
                   MaterialPage<TheoryPage>(
                     key: ValueKey('TheoryPage'),
-                    child: TheoryPage(
-                    ),
+                    child: TheoryPage(),
                   ),
                 if (taskNumber != 0)
                   MaterialPage<TaskPage>(
