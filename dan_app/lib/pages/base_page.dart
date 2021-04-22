@@ -1,11 +1,14 @@
+import 'package:dan_app/data/mockup_data.dart';
 import 'package:dan_app/pages/home_page.dart';
 import 'package:dan_app/pages/stories_page.dart';
 import 'package:flutter/material.dart';
 
 class BasePage extends StatefulWidget {
   final Function onSettingsPressed;
+  final List<Widget> pages;
+  final List<BottomNavigationBarItem> items;
 
-  const BasePage({required this.onSettingsPressed});
+  const BasePage({required this.onSettingsPressed, required this.pages, required this.items});
 
   @override
   _BasePageState createState() => _BasePageState();
@@ -14,13 +17,6 @@ class BasePage extends StatefulWidget {
 class _BasePageState extends State<BasePage> {
   int _selectedIndex = 0;
 
-  static final _pages = <Widget>[
-    HomePage(),
-    StoriesPage(),
-    Center(
-      child: Text("Profile"),
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +30,9 @@ class _BasePageState extends State<BasePage> {
           ),
         ],
       ),
-      body: _pages.elementAt(_selectedIndex),
+      body: widget.pages.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Stories'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
+        items: widget.items,
         currentIndex: _selectedIndex,
         onTap: (int index) => setState(() {
           _selectedIndex = index;

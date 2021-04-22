@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class TaskPage extends StatefulWidget {
   final int taskNumber;
+  final Function taskDoneCallback;
 
-  const TaskPage({required this.taskNumber});
+  const TaskPage({required this.taskNumber, required this.taskDoneCallback});
 
   @override
   _TaskPageState createState() => _TaskPageState();
@@ -14,28 +15,38 @@ class TaskPage extends StatefulWidget {
 class _TaskPageState extends State<TaskPage> {
   bool progressVisible = false;
 
+  Future<void> updateUser(CollectionReference users) {
+    return users
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('themes')
+        .doc(widget.taskNumber.toString())
+        .update(<String, String>{'done': (widget.taskNumber + 1).toString()}).then((value) {
+      widget.taskDoneCallback(0);
+    }).catchError(
+      (dynamic error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Что-то пошло не так'),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
+
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
               onPressed: () {
-                CollectionReference users =
-                    FirebaseFirestore.instance.collection('users');
-                Future<void> updateUser() {
-                  return users
-                      .doc(FirebaseAuth.instance.currentUser!.uid)
-                      .collection('tasks')
-                      .doc(widget.taskNumber.toString())
-                      .update(<String, String>{'done': 'true'})
-                      .then((value) => print("User Updated"))
-                      .catchError((dynamic error) =>
-                          print("Failed to update user: $error"));
-                }
+                updateUser(FirebaseFirestore.instance.collection('users'));
               },
-              child: Text("Готово!"),
+
+              child: Center(child: Text("Готово!"),),
             ),
             if (progressVisible) CircularProgressIndicator(),
           ],

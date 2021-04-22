@@ -1,8 +1,12 @@
+import 'package:dan_app/data/mockup_data.dart';
 import 'package:dan_app/pages/base_page.dart';
+import 'package:dan_app/pages/home_page.dart';
 import 'package:dan_app/pages/login_page.dart';
 import 'package:dan_app/pages/registration_page.dart';
 import 'package:dan_app/pages/settings_page.dart';
+import 'package:dan_app/pages/stories_page.dart';
 import 'package:dan_app/pages/task_page.dart';
+import 'package:dan_app/pages/theory_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +35,9 @@ class _MainPageState extends State<MainPage> {
   bool registerOpened = false;
   bool settingsOpened = false;
   final _navigatorKey = GlobalKey<NavigatorState>();
-  int themeNumber = 0;
+  String themeId = '';
   int taskNumber = 0;
+  String theoryId = '';
 
   void onRegisterChanged() {
     setState(() {
@@ -46,15 +51,16 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  void onTaskOpened({required int taskNumber, required int themeNumber}) {
+  void onTaskOpened({required int taskNumber, required String themeId}) {
     setState(() {
-      settingsOpened = !settingsOpened;
+      this.taskNumber = taskNumber;
+      this.themeId = themeId;
     });
   }
 
-  void onTheoryOpened() {
+  void onTheoryOpened({required String theoryId}) {
     setState(() {
-      settingsOpened = !settingsOpened;
+      this.theoryId = theoryId;
     });
   }
 
@@ -83,7 +89,27 @@ class _MainPageState extends State<MainPage> {
               ] else ...[
                 MaterialPage<BasePage>(
                   key: ValueKey('BasePage'),
-                  child: BasePage(onSettingsPressed: onSettingsChanged),
+                  child: BasePage(
+                    onSettingsPressed: onSettingsChanged,
+                    pages: <Widget>[
+                      HomePage(
+                        data: dummyThemes,
+                        taskOpenedCallback: onTaskOpened, theoryOpenedCallback: onTheoryOpened,
+                      ),
+                      StoriesPage(),
+                      Center(
+                        child: Text("Profile"),
+                      )
+                    ],
+                    items: [
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.home), label: 'Home'),
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.book), label: 'Stories'),
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.person), label: 'Profile'),
+                    ],
+                  ),
                 ),
                 if (settingsOpened)
                   MaterialPage<SettingsPage>(
@@ -92,10 +118,17 @@ class _MainPageState extends State<MainPage> {
                       settingsPressedCallback: onSettingsChanged,
                     ),
                   ),
-                if (themeNumber != 0)
+                if (theoryId != '')
+                  MaterialPage<TheoryPage>(
+                    key: ValueKey('TheoryPage'),
+                    child: TheoryPage(
+                    ),
+                  ),
+                if (taskNumber != 0)
                   MaterialPage<TaskPage>(
                     key: ValueKey('TaskPage'),
                     child: TaskPage(
+                      taskDoneCallback: onTaskOpened,
                       taskNumber: taskNumber,
                     ),
                   ),
@@ -103,6 +136,10 @@ class _MainPageState extends State<MainPage> {
             ],
             onPopPage: (route, dynamic result) {
               if (!route.didPop(result)) return false;
+              if (theoryId != '') theoryId = '';
+              if (taskNumber != 0) {
+                taskNumber = 0;
+              } else if (themeId != '') themeId = '';
               if (settingsOpened) {
                 setState(() {
                   settingsOpened = !settingsOpened;
