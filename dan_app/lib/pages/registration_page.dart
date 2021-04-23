@@ -68,9 +68,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             'name': user.user!.email, // John Doe
                           })
                           .then((value) => print("User Added"))
-                          .catchError((Exception error) =>
+                          .catchError((Object error) =>
                               print("Failed to add user: $error"));
                     }
+
+                    addUser();
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

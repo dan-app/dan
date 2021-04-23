@@ -24,7 +24,7 @@ class _TaskPageState extends State<TaskPage> {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('themes')
         .doc(widget.themeId)
-        .update(<String, int>{
+        .set(<String, int>{
       'tasks_done': widget.taskNumber + 1,
     }).then((value) {
       widget.taskDoneCallback(taskNumber: -1, themeId: '');
