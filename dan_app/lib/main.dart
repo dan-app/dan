@@ -33,7 +33,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   String themeId = '';
-  int taskNumber = 0;
+  int taskNumber = -1;
   String theoryId = '';
   bool registerOpened = false;
   bool settingsOpened = false;
@@ -132,12 +132,13 @@ class _MainPageState extends State<MainPage> {
                     key: ValueKey('TheoryPage'),
                     child: TheoryPage(),
                   ),
-                if (taskNumber != 0)
+                if (taskNumber != -1)
                   MaterialPage<TaskPage>(
                     key: ValueKey('TaskPage'),
                     child: TaskPage(
                       taskDoneCallback: onTaskOpened,
                       taskNumber: taskNumber,
+                      themeId: themeId,
                     ),
                   ),
               ],
@@ -145,8 +146,8 @@ class _MainPageState extends State<MainPage> {
             onPopPage: (route, dynamic result) {
               if (!route.didPop(result)) return false;
               if (theoryId != '') theoryId = '';
-              if (taskNumber != 0) {
-                taskNumber = 0;
+              if (taskNumber != -1) {
+                taskNumber = -1;
               } else if (themeId != '') themeId = '';
               if (settingsOpened) {
                 setState(() {

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -51,10 +52,25 @@ class _RegistrationPageState extends State<RegistrationPage> {
               onPressed: () async {
                 if (passwordConfirmController.text == passwordController.text) {
                   try {
-                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    var user = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
                       email: emailController.text,
                       password: passwordController.text,
                     );
+                    final CollectionReference users =
+                        FirebaseFirestore.instance.collection('users');
+
+                    Future<void> addUser() {
+                      // Call the user's CollectionReference to add a new user
+                      return users
+                          .doc(user.user!.uid)
+                          .set(<String, dynamic>{
+                            'name': user.user!.email, // John Doe
+                          })
+                          .then((value) => print("User Added"))
+                          .catchError((Exception error) =>
+                              print("Failed to add user: $error"));
+                    }
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

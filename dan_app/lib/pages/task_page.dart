@@ -3,10 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class TaskPage extends StatefulWidget {
+  final String themeId;
   final int taskNumber;
   final Function taskDoneCallback;
 
-  const TaskPage({required this.taskNumber, required this.taskDoneCallback});
+  const TaskPage(
+      {required this.taskNumber,
+      required this.taskDoneCallback,
+      required this.themeId});
 
   @override
   _TaskPageState createState() => _TaskPageState();
@@ -19,11 +23,11 @@ class _TaskPageState extends State<TaskPage> {
     return users
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('themes')
-        .doc(widget.taskNumber.toString())
-        .update(<String, String>{
-      'done': (widget.taskNumber + 1).toString(),
+        .doc(widget.themeId)
+        .update(<String, int>{
+      'tasks_done': widget.taskNumber + 1,
     }).then((value) {
-      widget.taskDoneCallback(0);
+      widget.taskDoneCallback(taskNumber: -1, themeId: '');
     }).catchError(
       (dynamic error) {
         ScaffoldMessenger.of(context).showSnackBar(
