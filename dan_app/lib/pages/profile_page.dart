@@ -1,10 +1,9 @@
-import 'package:dan_app/data/user.dart';
+import 'package:dan_app/controllers/firestore_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
-  final User user;
-
-  const ProfilePage({required this.user});
+  const ProfilePage();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,12 @@ class ProfilePage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(user.name),
+                child: TextButton(
+                    onPressed: () {
+                      FirestoreController.getUserProgress(
+                          FirebaseAuth.instance.currentUser!.uid);
+                    },
+                    child: Text(FirebaseAuth.instance.currentUser!.email!)),
               ),
               Spacer(),
               Padding(

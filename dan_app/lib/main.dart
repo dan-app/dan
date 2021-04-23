@@ -2,6 +2,7 @@ import 'package:dan_app/data/mockup_data.dart';
 import 'package:dan_app/pages/base_page.dart';
 import 'package:dan_app/pages/home_page.dart';
 import 'package:dan_app/pages/login_page.dart';
+import 'package:dan_app/pages/profile_page.dart';
 import 'package:dan_app/pages/registration_page.dart';
 import 'package:dan_app/pages/settings_page.dart';
 import 'package:dan_app/pages/stories_page.dart';
@@ -100,9 +101,7 @@ class _MainPageState extends State<MainPage> {
                         theoryOpenedCallback: onTheoryOpened,
                       ),
                       StoriesPage(),
-                      Center(
-                        child: Text("Profile"),
-                      ),
+                      ProfilePage(),
                     ],
                     items: [
                       BottomNavigationBarItem(
