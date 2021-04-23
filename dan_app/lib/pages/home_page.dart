@@ -6,10 +6,11 @@ class HomePage extends StatelessWidget {
   final Function taskOpenedCallback;
   final Function theoryOpenedCallback;
 
-  const HomePage(
-      {required this.data,
-      required this.taskOpenedCallback,
-      required this.theoryOpenedCallback});
+  const HomePage({
+    required this.data,
+    required this.taskOpenedCallback,
+    required this.theoryOpenedCallback,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,9 @@ class HomePage extends StatelessWidget {
                                       Navigator.of(context, rootNavigator: true)
                                           .pop();
                                       taskOpenedCallback(
-                                          taskNumber: i, themeId: e.id);
+                                        taskNumber: i,
+                                        themeId: e.id,
+                                      );
                                     },
                                     child: Text(
                                       (i + 1).toString(),
@@ -54,7 +57,7 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ],

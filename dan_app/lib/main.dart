@@ -32,12 +32,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  bool registerOpened = false;
-  bool settingsOpened = false;
-  final _navigatorKey = GlobalKey<NavigatorState>();
   String themeId = '';
   int taskNumber = 0;
   String theoryId = '';
+  bool registerOpened = false;
+  bool settingsOpened = false;
+  final _navigatorKey = GlobalKey<NavigatorState>();
 
   void onRegisterChanged() {
     setState(() {
@@ -59,9 +59,11 @@ class _MainPageState extends State<MainPage> {
   }
 
   void onTheoryOpened({required String theoryId}) {
-    setState(() {
-      this.theoryId = theoryId;
-    });
+    setState(
+      () {
+        this.theoryId = theoryId;
+      },
+    );
   }
 
   @override
@@ -100,7 +102,7 @@ class _MainPageState extends State<MainPage> {
                       StoriesPage(),
                       Center(
                         child: Text("Profile"),
-                      )
+                      ),
                     ],
                     items: [
                       BottomNavigationBarItem(

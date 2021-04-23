@@ -21,7 +21,7 @@ class _TaskPageState extends State<TaskPage> {
         .collection('themes')
         .doc(widget.taskNumber.toString())
         .update(<String, String>{
-      'done': (widget.taskNumber + 1).toString()
+      'done': (widget.taskNumber + 1).toString(),
     }).then((value) {
       widget.taskDoneCallback(0);
     }).catchError(
