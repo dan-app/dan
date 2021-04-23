@@ -6,7 +6,9 @@ class StoryPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: TextButton(
-          onPressed: () {},
+          onPressed: () {
+            //TODO сделать выполнение истории
+          },
           child: Text("Done!"),
         ),
       ),

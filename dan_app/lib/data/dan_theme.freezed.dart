@@ -10,14 +10,18 @@ part of 'dan_theme.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods',
+);
 
 /// @nodoc
 class _$DanThemeTearOff {
   const _$DanThemeTearOff();
 
-  _DanTheme call(
-      {required String id, required String name, required int tasksCount}) {
+  _DanTheme call({
+    required String id,
+    required String name,
+    required int tasksCount,
+  }) {
     return _DanTheme(
       id: id,
       name: name,
@@ -32,7 +36,9 @@ const $DanTheme = _$DanThemeTearOff();
 /// @nodoc
 mixin _$DanTheme {
   String get id => throw _privateConstructorUsedError;
+
   String get name => throw _privateConstructorUsedError;
+
   int get tasksCount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -44,6 +50,7 @@ mixin _$DanTheme {
 abstract class $DanThemeCopyWith<$Res> {
   factory $DanThemeCopyWith(DanTheme value, $Res Function(DanTheme) then) =
       _$DanThemeCopyWithImpl<$Res>;
+
   $Res call({String id, String name, int tasksCount});
 }
 
@@ -52,6 +59,7 @@ class _$DanThemeCopyWithImpl<$Res> implements $DanThemeCopyWith<$Res> {
   _$DanThemeCopyWithImpl(this._value, this._then);
 
   final DanTheme _value;
+
   // ignore: unused_field
   final $Res Function(DanTheme) _then;
 
@@ -82,6 +90,7 @@ class _$DanThemeCopyWithImpl<$Res> implements $DanThemeCopyWith<$Res> {
 abstract class _$DanThemeCopyWith<$Res> implements $DanThemeCopyWith<$Res> {
   factory _$DanThemeCopyWith(_DanTheme value, $Res Function(_DanTheme) then) =
       __$DanThemeCopyWithImpl<$Res>;
+
   @override
   $Res call({String id, String name, int tasksCount});
 }
@@ -101,27 +110,29 @@ class __$DanThemeCopyWithImpl<$Res> extends _$DanThemeCopyWithImpl<$Res>
     Object? name = freezed,
     Object? tasksCount = freezed,
   }) {
-    return _then(_DanTheme(
-      id: id == freezed
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: name == freezed
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      tasksCount: tasksCount == freezed
-          ? _value.tasksCount
-          : tasksCount // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
+    return _then(
+      _DanTheme(
+        id: id == freezed
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                as String,
+        name: name == freezed
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                as String,
+        tasksCount: tasksCount == freezed
+            ? _value.tasksCount
+            : tasksCount // ignore: cast_nullable_to_non_nullable
+                as int,
+      ),
+    );
   }
 }
 
 /// @nodoc
 class _$_DanTheme with DiagnosticableTreeMixin implements _DanTheme {
   const _$_DanTheme(
-      {required this.id, required this.name, required this.tasksCount});
+      {required this.id, required this.name, required this.tasksCount,});
 
   @override
   final String id;
@@ -168,21 +179,27 @@ class _$_DanTheme with DiagnosticableTreeMixin implements _DanTheme {
   @JsonKey(ignore: true)
   @override
   _$DanThemeCopyWith<_DanTheme> get copyWith =>
-      __$DanThemeCopyWithImpl<_DanTheme>(this, _$identity);
+      __$DanThemeCopyWithImpl<_DanTheme>(
+        this,
+        _$identity,
+      );
 }
 
 abstract class _DanTheme implements DanTheme {
   const factory _DanTheme(
       {required String id,
       required String name,
-      required int tasksCount}) = _$_DanTheme;
+      required int tasksCount},) = _$_DanTheme;
 
   @override
   String get id => throw _privateConstructorUsedError;
+
   @override
   String get name => throw _privateConstructorUsedError;
+
   @override
   int get tasksCount => throw _privateConstructorUsedError;
+
   @override
   @JsonKey(ignore: true)
   _$DanThemeCopyWith<_DanTheme> get copyWith =>
