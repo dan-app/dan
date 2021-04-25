@@ -1,0 +1,37 @@
+include: package:lint/analysis_options.yaml
+
+analyzer:
+  language:
+    strict-inference: true
+    strict-raw-types: true
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+  plugins:
+    - dart_code_metrics
+
+dart_code_metrics:
+  anti-patterns:
+    - long-method
+    - long-parameter-list
+  metrics:
+    cyclomatic-complexity: 20
+    lines-of-executable-code: 80
+    number-of-parameters: 5
+    maximum-nesting-level: 5
+  rules:
+    - binary-expression-operand-order
+    - member-ordering-extended
+    - no-boolean-literal-compare
+    - no-empty-block
+    - no-equal-arguments
+    - no-equal-then-else
+    - prefer-trailing-comma
+    - prefer-conditional-expressions
+    - avoid-returning-widgets
+
+linter:
+  rules:
+    avoid_redundant_argument_values: false
+    prefer_const_constructors: false
+    sort_pub_dependencies: false
