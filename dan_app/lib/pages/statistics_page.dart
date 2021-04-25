@@ -8,14 +8,17 @@ class StatisticsPage extends StatefulWidget {
 }
 
 class _StatisticsPageState extends State<StatisticsPage> {
-  late List<dynamic> docs = <dynamic>[];
+  late Map<String, int> docs = {};
 
   void setDocs() async {
     var docs = await FirestoreController.getUserProgress(
-        FirebaseAuth.instance.currentUser!.uid);
-    setState(() {
-      this.docs = docs;
-    });
+      FirebaseAuth.instance.currentUser!.uid,
+    );
+    if (mounted) {
+      setState(() {
+        this.docs = docs;
+      });
+    }
   }
 
   @override
@@ -25,11 +28,9 @@ class _StatisticsPageState extends State<StatisticsPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: docs
+          children: docs.entries
               .map(
-                (dynamic e) => Text(
-                  e.toString(),
-                ),
+                (it) => Text('${it.key} : ${it.value}'),
               )
               .toList(),
         ),
