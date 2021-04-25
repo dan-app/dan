@@ -5,6 +5,7 @@ import 'package:dan_app/pages/login_page.dart';
 import 'package:dan_app/pages/profile_page.dart';
 import 'package:dan_app/pages/registration_page.dart';
 import 'package:dan_app/pages/settings_page.dart';
+import 'package:dan_app/pages/statistics_page.dart';
 import 'package:dan_app/pages/stories_page.dart';
 import 'package:dan_app/pages/task_page.dart';
 import 'package:dan_app/pages/theory_page.dart';
@@ -38,6 +39,7 @@ class _MainPageState extends State<MainPage> {
   String theoryId = '';
   bool registerOpened = false;
   bool settingsOpened = false;
+  bool statisticsOpened = false;
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   void onRegisterChanged() {
@@ -65,6 +67,12 @@ class _MainPageState extends State<MainPage> {
         this.theoryId = theoryId;
       },
     );
+  }
+
+  void onStatisticsChanged({required bool statisticsOpened}) {
+    setState(() {
+      this.statisticsOpened = statisticsOpened;
+    });
   }
 
   @override
@@ -101,7 +109,9 @@ class _MainPageState extends State<MainPage> {
                         theoryOpenedCallback: onTheoryOpened,
                       ),
                       StoriesPage(),
-                      ProfilePage(),
+                      ProfilePage(
+                        statisticsOpenedCallback: onStatisticsChanged,
+                      ),
                     ],
                     items: [
                       BottomNavigationBarItem(
@@ -140,6 +150,11 @@ class _MainPageState extends State<MainPage> {
                       themeId: themeId,
                     ),
                   ),
+                if (statisticsOpened)
+                  MaterialPage<StatisticsPage>(
+                    key: ValueKey('StatisticsPage'),
+                    child: StatisticsPage(),
+                  ),
               ],
             ],
             onPopPage: (route, dynamic result) {
@@ -151,6 +166,11 @@ class _MainPageState extends State<MainPage> {
               if (settingsOpened) {
                 setState(() {
                   settingsOpened = !settingsOpened;
+                });
+              }
+              if (statisticsOpened) {
+                setState(() {
+                  statisticsOpened = false;
                 });
               }
               return true;
