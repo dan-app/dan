@@ -9,6 +9,7 @@ import 'package:dan_app/pages/statistics_page.dart';
 import 'package:dan_app/pages/stories_page.dart';
 import 'package:dan_app/pages/task_page.dart';
 import 'package:dan_app/pages/theory_page.dart';
+import 'package:dan_app/styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: MainPage(),
+      theme: ThemeData.light().applyDanStyles(),
+      darkTheme: ThemeData.dark().applyDanStyles(),
     );
   }
 }
