@@ -1,6 +1,9 @@
 include: package:lint/analysis_options.yaml
 
 analyzer:
+  language:
+    strict-inference: true
+    strict-raw-types: true
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false
@@ -30,6 +33,7 @@ dart_code_metrics:
     - no-equal-then-else
     - prefer-trailing-comma
     - prefer-conditional-expressions
+    - avoid-returning-widgets
 
 linter:
   rules:
