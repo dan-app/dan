@@ -9,6 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  quiver: ^3.0.0
+  flutter_hooks: ^0.16.0
+  linked_scroll_controller: ^0.2.0-nullsafety.0
 
 dev_dependencies:
   lint: ^1.5.3

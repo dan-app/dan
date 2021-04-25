@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dan_tasks/dan_tasks.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -39,21 +40,30 @@ class _TaskPageState extends State<TaskPage> {
     );
   }
 
+  void onDone({required bool isCorrect}) {
+    setState(() {
+      progressVisible = true;
+    });
+    if (isCorrect) {
+      updateUser(FirebaseFirestore.instance.collection('users'));
+    } else {
+      // exit task anyway
+      widget.taskDoneCallback(taskNumber: -1, themeId: '');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final task = tasks[widget.themeId]![widget.taskNumber](
+      context,
+      (isCorrect) => onDone(isCorrect: isCorrect),
+    );
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(
-              onPressed: () {
-                updateUser(FirebaseFirestore.instance.collection('users'));
-              },
-              child: Center(
-                child: Text("Готово!"),
-              ),
-            ),
+            Expanded(child: task),
             if (progressVisible) CircularProgressIndicator(),
           ],
         ),
