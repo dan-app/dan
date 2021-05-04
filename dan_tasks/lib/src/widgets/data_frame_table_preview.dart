@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -30,16 +31,7 @@ class DataFrameTablePreview extends StatelessWidget {
           ),
           child: Stack(
             children: [
-              ShaderMask(
-                shaderCallback: (rect) => LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.black, Colors.transparent],
-                  stops: const [.25, .95],
-                ).createShader(
-                  Rect.fromLTRB(0, 0, rect.width, rect.height),
-                ),
-                blendMode: BlendMode.dstIn,
+              _Fade(
                 child: ClipRect(
                   child: Transform.scale(
                     scale: 0.8,
@@ -78,6 +70,33 @@ class DataFrameTablePreview extends StatelessWidget {
     );
   }
 }
+
+class _Fade extends StatelessWidget {
+  final Widget child;
+
+  const _Fade({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    if (kIsWeb) {
+      // shader fading not supported
+      return child;
+    }
+    return ShaderMask(
+      shaderCallback: (rect) => LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [Colors.black, Colors.transparent],
+        stops: const [.25, .95],
+      ).createShader(
+        Rect.fromLTRB(0, 0, rect.width, rect.height),
+      ),
+      blendMode: BlendMode.dstIn,
+      child: child,
+    );
+  }
+}
+
 
 class _DataFrameTablePage extends HookWidget {
   final DataFrame df;
