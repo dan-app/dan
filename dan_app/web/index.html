@@ -40,6 +40,29 @@
       });
     }
   </script>
+
+  <!-- https://firebase.flutter.dev/docs/installation/web -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+
+  <!-- https://firebase.flutter.dev/docs/auth/overview/ -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+
+  <!-- https://firebase.flutter.dev/docs/firestore/overview/ -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+
+  <!-- See https://console.firebase.google.com/project/dan-app-dev/settings/general (Web) -->
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyAliD-qPv0lFi6YQ4aXdpE7okn5OryYZBM",
+      authDomain: "dan-app-dev.firebaseapp.com",
+      projectId: "dan-app-dev",
+      storageBucket: "dan-app-dev.appspot.com",
+      messagingSenderId: "812585695324",
+      appId: "1:812585695324:web:0db41e288f2d8d1d45ce99"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
