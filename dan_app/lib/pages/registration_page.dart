@@ -14,6 +14,28 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   final passwordConfirmController = TextEditingController();
   bool progressVisible = false;
+
+  void initUser() {
+    ['basics', 'family', 'places'].forEach((element) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('themes')
+          .doc(element)
+          .set(<String, int>{'tasks_done': 0})
+          .then((value) {})
+          .catchError(
+            (dynamic error) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Something went wrong'),
+                ),
+              );
+            },
+          );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +56,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Пароль',
+                labelText: 'Password',
               ),
             ),
             TextField(
@@ -42,7 +64,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Повторите пароль',
+                labelText: 'Password confirmation',
               ),
             ),
             SizedBox(
@@ -73,22 +95,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     }
 
                     addUser();
+                    initUser();
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Что-то пошло не так'),
+                        content: Text('Something went wrong'),
                       ),
                     );
                   }
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Пароли не совпадают!'),
+                      content: Text('Passwords are not the same!'),
                     ),
                   );
                 }
               },
-              child: Text("Зарегистрироватся"),
+              child: Text("Register"),
             ),
           ],
         ),

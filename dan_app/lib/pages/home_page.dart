@@ -1,19 +1,30 @@
+import 'package:dan_app/controllers/firestore_controller.dart';
 import 'package:dan_app/data/dan_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
   final List<DanTheme> data;
   final Function taskOpenedCallback;
   final Function theoryOpenedCallback;
+  late Map<String, int> docs;
 
-  const HomePage({
+  HomePage({
     required this.data,
     required this.taskOpenedCallback,
     required this.theoryOpenedCallback,
   });
 
+  void setDocs() async {
+    docs = await FirestoreController.getUserProgress(
+      FirebaseAuth.instance.currentUser!.uid,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    setDocs();
+
     return ListView(
       children: data
           .map(
@@ -24,7 +35,7 @@ class HomePage extends StatelessWidget {
                     context: context,
                     builder: (_) => AlertDialog(
                       title: Text(e.name),
-                      content: Text("Что-то умное надо написать"),
+                      content: Text("Basics of data analysis"),
                       actions: <Widget>[
                         Column(
                           children: [
@@ -32,7 +43,7 @@ class HomePage extends StatelessWidget {
                               onPressed: () {
                                 theoryOpenedCallback(e.id);
                               },
-                              child: Text('Теория'),
+                              child: Text('Theory'),
                             ),
                             Row(
                               children: [
@@ -53,6 +64,12 @@ class HomePage extends StatelessWidget {
                                     },
                                     child: Text(
                                       (i + 1).toString(),
+                                      style: TextStyle(
+                                          color: i < docs[e.id]!
+                                              ? Colors.green
+                                              : i == docs[e.id]
+                                                  ? Colors.lightBlue
+                                                  : Colors.grey),
                                     ),
                                   ),
                                 ),

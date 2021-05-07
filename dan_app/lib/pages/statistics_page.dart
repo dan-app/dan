@@ -22,18 +22,34 @@ class _StatisticsPageState extends State<StatisticsPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     setDocs();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: docs.entries
-              .map(
-                (it) => Text('${it.key} : ${it.value}'),
-              )
-              .toList(),
-        ),
+      appBar: AppBar(
+        title: Text('Statistics'),
+      ),
+      body: ListView(
+        children: docs.keys
+            .map(
+              (e) => Card(
+                child: ListTile(
+                  leading: FlutterLogo(),
+                  title: Row(
+                    children: [
+                      Text(e),
+                      Spacer(),
+                      Text(docs[e].toString()),
+                    ],
+                  ),
+                ),
+              ),
+            )
+            .toList(),
       ),
     );
   }

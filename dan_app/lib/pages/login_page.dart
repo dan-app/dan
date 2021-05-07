@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
               controller: emailController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Логин',
+                labelText: 'Login',
               ),
             ),
             TextField(
@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Пароль',
+                labelText: 'Password',
               ),
             ),
             SizedBox(
@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Что-то пошло не так'),
+                        content: Text('Something went wrong'),
                       ),
                     );
                   } finally {
@@ -79,13 +79,13 @@ class _LoginPageState extends State<LoginPage> {
                   );
                 }
               },
-              child: Text("Войти"),
+              child: Text("Sign in"),
             ),
             TextButton(
               onPressed: () {
                 widget.registerChangedCallback();
               },
-              child: Text("Зарегистрироватся"),
+              child: Text("Sign up"),
             ),
             if (progressVisible) CircularProgressIndicator(),
           ],

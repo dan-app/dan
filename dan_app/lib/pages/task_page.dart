@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class TaskPage extends StatefulWidget {
   final String themeId;
   final int taskNumber;
-  final Function taskDoneCallback;
+  final void Function({required int taskNumber, required String themeId})
+      taskDoneCallback;
 
   const TaskPage(
       {required this.taskNumber,
@@ -33,7 +34,7 @@ class _TaskPageState extends State<TaskPage> {
       (dynamic error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Что-то пошло не так'),
+            content: Text('Something went wrong'),
           ),
         );
       },
