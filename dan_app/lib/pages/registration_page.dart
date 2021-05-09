@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dan_app/controllers/firestore_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -14,27 +15,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   final passwordConfirmController = TextEditingController();
   bool progressVisible = false;
-
-  void initUser() {
-    ['basics', 'family', 'places'].forEach((element) {
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('themes')
-          .doc(element)
-          .set(<String, int>{'tasks_done': 0})
-          .then((value) {})
-          .catchError(
-            (dynamic error) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Something went wrong'),
-                ),
-              );
-            },
-          );
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,28 +54,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
               onPressed: () async {
                 if (passwordConfirmController.text == passwordController.text) {
                   try {
-                    var user = await FirebaseAuth.instance
-                        .createUserWithEmailAndPassword(
+                    FirestoreController.addUser(
                       email: emailController.text,
                       password: passwordController.text,
                     );
-                    final CollectionReference users =
-                        FirebaseFirestore.instance.collection('users');
 
-                    Future<void> addUser() {
-                      // Call the user's CollectionReference to add a new user
-                      return users
-                          .doc(user.user!.uid)
-                          .set(<String, dynamic>{
-                            'name': user.user!.email, // John Doe
-                          })
-                          .then((value) => print("User Added"))
-                          .catchError((Object error) =>
-                              print("Failed to add user: $error"));
-                    }
 
-                    addUser();
-                    initUser();
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
