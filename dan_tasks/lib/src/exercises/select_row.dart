@@ -29,6 +29,7 @@ class SelectRowExercise extends HookWidget {
       [],
     );
     return ListView(
+      padding: EdgeInsets.zero,
       children: [
         Padding(
           padding: EdgeInsets.all(16),

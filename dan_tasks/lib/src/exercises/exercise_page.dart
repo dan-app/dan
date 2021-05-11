@@ -16,14 +16,20 @@ class ExerciseResult {
   });
 }
 
+typedef ExerciseBuilder = Widget Function(
+  BuildContext,
+  ValueChanged<ExerciseResult>,
+);
+
 class ExercisePage extends HookWidget {
-  final Widget Function(BuildContext, ValueChanged<ExerciseResult>) builder;
+  final ExerciseBuilder builder;
   final ValueChanged<bool> onDone;
 
   const ExercisePage({
+    Key? key,
     required this.builder,
     required this.onDone,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

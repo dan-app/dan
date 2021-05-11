@@ -41,4 +41,15 @@ class DataFrame {
       ),
     );
   }
+
+  DataFrame head(int n) {
+    return DataFrame(
+      columnsData.map(
+        (key, value) => MapEntry(
+          key,
+          value.head(n),
+        ),
+      ),
+    );
+  }
 }

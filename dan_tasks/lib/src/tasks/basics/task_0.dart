@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart';
 
 import '../../data/df_iris.dart';
-import '../../exercises/exercise_page.dart';
 import '../../exercises/select_column.dart';
+import '../../exercises/select_row.dart';
+import '../tasks_page.dart';
 
 class Task0 extends StatelessWidget {
   final ValueChanged<bool> onDone;
@@ -11,13 +12,20 @@ class Task0 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExercisePage(
+    return TaskPage(
+      exerciseBuilders: [
+        (context, onSubmitted) => SelectColumnExercise(
+          df: dfIris,
+          column: dfIris.columns[1],
+          onSubmitted: onSubmitted,
+        ),
+        (context, onSubmitted) => SelectRowExercise(
+          df: dfIris,
+          rowIndex: 1,
+          onSubmitted: onSubmitted,
+        ),
+      ],
       onDone: onDone,
-      builder: (context, onSubmitted) => SelectColumnExercise(
-        df: dfIris,
-        column: dfIris.columns[1],
-        onSubmitted: onSubmitted,
-      ),
     );
   }
 }

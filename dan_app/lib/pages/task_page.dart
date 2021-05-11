@@ -46,8 +46,18 @@ class _TaskPageState extends State<TaskPage> {
       progressVisible = true;
     });
     if (isCorrect) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Well done!'),
+        ),
+      );
       updateUser(FirebaseFirestore.instance.collection('users'));
     } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('You made some mistakes, try again later'),
+        ),
+      );
       // exit task anyway
       widget.taskDoneCallback(taskNumber: -1, themeId: '');
     }

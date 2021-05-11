@@ -8,9 +8,20 @@ import 'data_frame_table.dart';
 
 class DataFrameTablePreview extends StatelessWidget {
   final DataFrame df;
+  final DataFrame dfHead;
 
-  const DataFrameTablePreview({
+  factory DataFrameTablePreview({
+    required DataFrame df,
+  }) {
+    return DataFrameTablePreview._(
+      df: df,
+      dfHead: df.head(10),
+    );
+  }
+
+  const DataFrameTablePreview._({
     required this.df,
+    required this.dfHead,
   });
 
   @override
@@ -46,7 +57,7 @@ class DataFrameTablePreview extends StatelessWidget {
                             headingRowHeight: 36,
                             dataRowHeight: 32,
                           ),
-                          child: JustDataFrameTable(df: df),
+                          child: JustDataFrameTable(df: dfHead),
                         ),
                       ),
                     ),
@@ -86,7 +97,7 @@ class _Fade extends StatelessWidget {
       shaderCallback: (rect) => LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [Colors.black, Colors.transparent],
+        colors: const [Colors.black, Colors.transparent],
         stops: const [.25, .95],
       ).createShader(
         Rect.fromLTRB(0, 0, rect.width, rect.height),
