@@ -9,6 +9,8 @@ class DataFrame {
 
   int get columnsCount => columnsData.length;
 
+  int get rowsCount => columnsData.values.first.data.length;
+
   Map<String, Type> get dTypes {
     return columnsData.map(
       (name, series) => MapEntry(name, series.dType),
