@@ -52,4 +52,25 @@ class DataFrame {
       ),
     );
   }
+
+  DataFrame selectColumns(List<String> names) {
+    return DataFrame(
+      Map.fromEntries(
+        columnsData.entries.where(
+          (it) => names.contains(it.key),
+        ),
+      ),
+    );
+  }
+
+  DataFrame selectRow(int index) {
+    return DataFrame(
+      columnsData.map(
+        (key, value) => MapEntry(
+          key,
+          Series([value.data[index]]),
+        ),
+      ),
+    );
+  }
 }

@@ -147,6 +147,9 @@ class _DataFrameTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (df.columnsCount == 0) {
+      return SizedBox.shrink();
+    }
     const double columnSpacing = 16;
     return Column(
       children: [

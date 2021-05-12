@@ -79,6 +79,7 @@ class SelectRowExercise extends HookWidget {
                   isCorrect: actual == expected,
                   expected: expected,
                   actual: actual,
+                  output: _output(code),
                 ),
               );
             },
@@ -86,5 +87,20 @@ class SelectRowExercise extends HookWidget {
         ),
       ],
     );
+  }
+
+  // ignore: avoid-returning-widgets
+  Widget? _output(List<CodeSpan> code) {
+    if (code.length == 4) {
+      if (code[0].data == 'df' && code[1].data == '[' && code[3].data == ']') {
+        final row = int.tryParse(code[2].data);
+        if (row != null && 0 <= row && row < df.rowsCount) {
+          return DataFrameTablePreview(
+            df: df.selectRow(row),
+          );
+        }
+      }
+    }
+    return null;
   }
 }

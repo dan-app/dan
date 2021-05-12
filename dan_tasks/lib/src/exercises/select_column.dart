@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../data/code.dart';
 import '../data/data_frame.dart';
+import '../utils/utils.dart';
 import '../widgets/code_block.dart';
 import '../widgets/code_chips_input.dart';
 import '../widgets/code_line.dart';
@@ -82,6 +83,7 @@ class SelectColumnExercise extends HookWidget {
                   isCorrect: actual == expected,
                   expected: expected,
                   actual: actual,
+                  output: _output(code),
                 ),
               );
             },
@@ -89,5 +91,20 @@ class SelectColumnExercise extends HookWidget {
         ),
       ],
     );
+  }
+
+  // ignore: avoid-returning-widgets
+  Widget? _output(List<CodeSpan> code) {
+    if (code.length == 4) {
+      if (code[0].data == 'df' && code[1].data == '[' && code[3].data == ']') {
+        final col = code[2].data.let((it) => it.substring(1, it.length - 1));
+        if (df.columns.contains(col)) {
+          return DataFrameTablePreview(
+            df: df.selectColumns([col]),
+          );
+        }
+      }
+    }
+    return null;
   }
 }

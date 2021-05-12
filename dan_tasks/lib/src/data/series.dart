@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 class Series<T> {
   final List<T> data;
 
@@ -9,7 +11,7 @@ class Series<T> {
 
   static Series<U> from<U extends Object?>(List<U> data) => Series(data);
 
-  Series<T> head(int n) => Series(data.sublist(0, n));
+  Series<T> head(int n) => Series(data.sublist(0, math.min(n, data.length)));
 }
 
 extension Typing<T> on List<T> {
