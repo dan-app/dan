@@ -114,6 +114,7 @@ class _MainPageState extends State<MainPage> {
                       StoriesPage(),
                       ProfilePage(
                         statisticsOpenedCallback: onStatisticsChanged,
+                        uid: FirebaseAuth.instance.currentUser!.uid,
                       ),
                     ],
                     items: [
@@ -167,9 +168,11 @@ class _MainPageState extends State<MainPage> {
                 taskNumber = -1;
               } else if (themeId != '') themeId = '';
               if (settingsOpened) {
-                setState(() {
-                  settingsOpened = !settingsOpened;
-                });
+                setState(
+                  () {
+                    settingsOpened = !settingsOpened;
+                  },
+                );
               }
               if (statisticsOpened) {
                 setState(() {

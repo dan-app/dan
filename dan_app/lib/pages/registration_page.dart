@@ -12,7 +12,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final emailController = TextEditingController();
 
   final passwordController = TextEditingController();
-
+  final usernameController = TextEditingController();
   final passwordConfirmController = TextEditingController();
   bool progressVisible = false;
 
@@ -29,6 +29,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Email',
+              ),
+            ),
+            TextField(
+              keyboardType: TextInputType.name,
+              controller: usernameController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Username',
               ),
             ),
             TextField(
@@ -57,9 +65,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     FirestoreController.addUser(
                       email: emailController.text,
                       password: passwordController.text,
+                      username: usernameController.text,
                     );
-
-
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

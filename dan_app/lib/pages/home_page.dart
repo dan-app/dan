@@ -65,11 +65,16 @@ class HomePage extends StatelessWidget {
                                     child: Text(
                                       (i + 1).toString(),
                                       style: TextStyle(
-                                          color: i < docs[e.id]!
-                                              ? Colors.green
-                                              : i == docs[e.id]
-                                                  ? Colors.lightBlue
-                                                  : Colors.grey),
+                                        color: docs[e.id] != null
+                                            ? i < docs[e.id]!
+                                                ? Colors.green
+                                                : i == docs[e.id]
+                                                    ? Colors.lightBlue
+                                                    : Colors.grey
+                                            : i  == 0
+                                                ? Colors.lightBlue
+                                                : Colors.grey,
+                                      ),
                                     ),
                                   ),
                                 ),

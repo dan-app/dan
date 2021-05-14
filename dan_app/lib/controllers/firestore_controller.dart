@@ -15,19 +15,82 @@ class FirestoreController {
     );
   }
 
-  static Future<void> addUser({required String email, required String password}) async {
-    final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+  static Future<void> addUser({
+    required String email,
+    required String password,
+    required String username,
+  }) async {
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
+    final UserCredential user =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
-    final CollectionReference users =
-        FirebaseFirestore.instance.collection('users');
-    return users
+    users.doc(user.user!.uid).set(
+      {
+        'achievements': {
+          'champion': 0,
+          'diligent': 0,
+          'experienced': 0,
+          'friendly': 0,
+          'neat': 0,
+          'pretty': 0,
+          'student': 0,
+          'triumphant': 0,
+        },
+      },
+    );
+
+    users
         .doc(user.user!.uid)
-        .set(<String, dynamic>{
-          'name': user.user!.email, // John Doe
+        .update(<String, dynamic>{
+          'email': user.user!.email,
+          'username': username,
+          'uid': user.user!.uid
         })
         .then((value) => print("User Added"))
         .catchError((Object error) => print("Failed to add user: $error"));
+  }
+
+  static Future<Map<String, dynamic>> getAchievements(String uid) async {
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
+    final user = await users.doc(FirebaseAuth.instance.currentUser!.uid).get();
+    return (user.data() as Map<String, dynamic>)['achievements']
+        as Map<String, dynamic>;
+  }
+
+  static Future<Map<String, dynamic>> getUsers() async {
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
+    var map = <String, dynamic>{};
+    await users.get().then(
+      (value) {
+        value.docs.forEach((doc) {
+          map[doc.id] = doc.data();
+        });
+      },
+    );
+    print(map);
+    return map;
+  }
+
+  static Future<Map<String, dynamic>> getUserData(String uid) async {
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
+    final user = await users.doc(FirebaseAuth.instance.currentUser!.uid).get();
+    return user.data() as Map<String, dynamic>;
+  }
+
+  static Future<void> addFriend(String uid, String username) async {
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
+    await users
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('friends')
+        .doc(username)
+        .set(<String, dynamic>{'uid': uid});
+
   }
 }
