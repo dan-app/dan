@@ -1,15 +1,16 @@
+import 'package:dan_app/controllers/firestore_controller.dart';
 import 'package:dan_app/theme/color_theme.dart';
 import 'package:dan_app/theme/text_theme.dart';
 import 'package:flutter/material.dart';
 
 class Info extends StatelessWidget {
   final String name;
-  final String avatar;
-  final Function onTap;
+  final String uid;
+  final void Function() onTap;
 
   const Info({
-    required this.name ,
-    required this.avatar,
+    required this.name,
+    required this.uid,
     required this.onTap,
   });
 
@@ -24,15 +25,23 @@ class Info extends StatelessWidget {
           child: Center(
             child: Stack(
               children: [
-                CircleAvatar(
-                  radius: 59,
-                  child: Image.asset(avatar),
-                ),
+                FutureBuilder<String>(
+                    future: FirestoreController.getAvatarLink(uid),
+                    builder: (context, snapshot) {
+                      return CircleAvatar(
+                        radius: 59,
+                        child:
+                            snapshot.connectionState == ConnectionState.none ||
+                                    snapshot.data == null
+                                ? null
+                                : Image.network(snapshot.data!),
+                      );
+                    }),
                 Positioned(
                   right: 0,
                   bottom: 0,
                   child: GestureDetector(
-                    onTap: (){},
+                    onTap: onTap,
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(

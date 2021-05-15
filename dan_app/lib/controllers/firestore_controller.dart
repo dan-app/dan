@@ -1,5 +1,9 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class FirestoreController {
   static Future<Map<String, int>> getUserProgress(String uid) async {
@@ -47,7 +51,7 @@ class FirestoreController {
         .update(<String, dynamic>{
           'email': user.user!.email,
           'username': username,
-          'uid': user.user!.uid
+          'uid': user.user!.uid,
         })
         .then((value) => print("User Added"))
         .catchError((Object error) => print("Failed to add user: $error"));
@@ -72,7 +76,6 @@ class FirestoreController {
         });
       },
     );
-    print(map);
     return map;
   }
 
@@ -86,11 +89,52 @@ class FirestoreController {
   static Future<void> addFriend(String uid, String username) async {
     final CollectionReference users =
         FirebaseFirestore.instance.collection('users');
-    await users
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('friends')
-        .doc(username)
-        .set(<String, dynamic>{'uid': uid});
+    await users.doc(FirebaseAuth.instance.currentUser!.uid).update({
+      'subscriptions': FieldValue.arrayUnion(<dynamic>[uid]),
+    });
+  }
 
+  static Future<List<String>> getSubscribers(String uid) async {
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
+    List<String> subscribers = await users
+        .where('subscriptions', arrayContains: uid)
+        .get()
+        .then((value) {
+      return value.docs.map((e) => e.id).toList();
+    });
+    return subscribers;
+  }
+
+  static Future<List<String>> getSubscriptions(String uid) async {
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
+    List<String> subscriptions = await users.doc(uid).get().then((value) {
+      print(value);
+      return (value.get('subscriptions') as List).cast<String>();
+    });
+    return subscriptions;
+  }
+
+  static Future<String> getUsernameById(String uid) async {
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
+    String username = await users
+        .doc(uid)
+        .get()
+        .then((value) => value.get('username') as String);
+    return username;
+  }
+
+  static Future<void> uploadAvatar(File avatar, String uid) async {
+    try {
+      await FirebaseStorage.instance.ref('uploads/$uid').putFile(avatar);
+    } on FirebaseException catch (e) {}
+  }
+
+  static Future<String> getAvatarLink(String uid) async {
+    var link =
+        await FirebaseStorage.instance.ref('uploads/$uid').getDownloadURL();
+    return link;
   }
 }

@@ -1,28 +1,21 @@
+import 'package:dan_app/controllers/firestore_controller.dart';
 import 'package:dan_app/data/friend.dart';
 import 'package:dan_app/theme/text_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Friends extends StatefulWidget {
+  final String uid;
+
+  const Friends({required this.uid});
+
   @override
   _FriendsState createState() => _FriendsState();
 }
 
 class _FriendsState extends State<Friends> {
   bool subscribtions_flag = true;
-  List<Friend> subscriptions = <Friend>[
-    Friend(uid: '0', name: 'Subscription'),
-    Friend(uid: '0', name: 'Subscription'),
-    Friend(uid: '0', name: 'Subscription'),
-    Friend(uid: '0', name: 'Subscription'),
 
-  ];
-  List<Friend> subscribers = <Friend>[
-    Friend(uid: '0', name: 'Subscriber'),
-    Friend(uid: '0', name: 'Subscriber'),
-    Friend(uid: '0', name: 'Subscriber'),
-    Friend(uid: '0', name: 'Subscriber'),
-
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -63,45 +56,76 @@ class _FriendsState extends State<Friends> {
         ),
         SizedBox(
           height: 300,
-          child: Column(
-            children: subscribtions_flag
-                ? subscriptions
-                    .map(
-                      (friend) => Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              CircleAvatar(),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(friend.name),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList()
-                : subscribers
-                    .map(
-                      (friend) => Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              CircleAvatar(),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(friend.name),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-          ),
+          child: subscribtions_flag
+              ? FutureBuilder<List<String>>(
+                  future: FirestoreController.getSubscriptions(widget.uid),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.none ||
+                        snapshot.data == null) {
+                      return Container();
+                    }
+                    return Column(
+                      children: snapshot.data!
+                          .map(
+                            (uid) => FutureBuilder<String>(
+                                future:
+                                    FirestoreController.getUsernameById(uid),
+                                builder: (context, childSnap) {
+                                  return Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          CircleAvatar(),
+                                          SizedBox(
+                                            width: 8,
+                                          ),
+                                          Text('${childSnap.data!}1'),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          )
+                          .toList(),
+                    );
+                  })
+              : FutureBuilder<List<String>>(
+                  future: FirestoreController.getSubscribers(widget.uid),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.none ||
+                        snapshot.data == null) {
+                      return Container();
+                    }
+                    return Column(
+                      children: snapshot.data!
+                          .map(
+                            (uid) => FutureBuilder<String>(
+                                future:
+                                    FirestoreController.getUsernameById(uid),
+                                builder: (context, childSnap) {
+                                  if (childSnap.connectionState == ConnectionState.none ||
+                                      childSnap.data == null) {
+                                    return Container();
+                                  }                                  return Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          CircleAvatar(),
+                                          SizedBox(
+                                            width: 8,
+                                          ),
+                                          Text(childSnap.data!),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          )
+                          .toList(),
+                    );
+                  }),
         ),
       ],
     );

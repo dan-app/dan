@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dan_app/controllers/firestore_controller.dart';
 import 'package:dan_app/custom_widgets/achievements.dart';
 import 'package:dan_app/custom_widgets/friends.dart';
@@ -6,6 +8,7 @@ import 'package:dan_app/custom_widgets/statistics.dart';
 import 'package:dan_app/utils/delegates.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
@@ -22,10 +25,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  late File _image;
+  final picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +38,20 @@ class _ProfilePageState extends State<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Info(
-                onTap: () {},
+                onTap: () async {
+                  final pickedFile =
+                      await picker.getImage(source: ImageSource.gallery);
+                  setState(() {
+                    if (pickedFile != null) {
+                      _image = File(pickedFile.path);
+                      FirestoreController.uploadAvatar(_image, widget.uid);
+                    } else {
+                      print('No image selected.');
+                    }
+                  });
+                },
                 name: FirebaseAuth.instance.currentUser!.email!,
-                avatar: '',
+                uid: widget.uid,
               ),
               Center(
                 child: TextButton(
@@ -50,7 +62,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               Statistics(),
-              Friends(),
+              Friends(
+                uid: widget.uid,
+              ),
               ElevatedButton(
                 onPressed: () async {
                   var result = await showSearch(
