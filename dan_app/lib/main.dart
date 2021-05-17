@@ -113,8 +113,9 @@ class _MainPageState extends State<MainPage> {
                       ),
                       StoriesPage(),
                       ProfilePage(
-                        statisticsOpenedCallback: onStatisticsChanged,
+                        //statisticsOpenedCallback: onStatisticsChanged,
                         uid: FirebaseAuth.instance.currentUser!.uid,
+                        friend: false,
                       ),
                     ],
                     items: [

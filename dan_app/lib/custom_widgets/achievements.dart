@@ -60,33 +60,35 @@ class _AchievementsState extends State<Achievements> {
             itemBuilder: (context, index) => Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Image.network(
-                      data[index].image,
-                      height: 100,
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          data[index].name,
-                          style: TextThemes.headline_6,
-                        ),
-                        Text(data[index].description),
-                        SizedBox(
-                          height: 8,
-                          width: 200,
-                          child: LinearProgressIndicator(
-                            value: data[index].current / data[index].max,
+                child: (data.length > index)
+                    ? Row(
+                        children: [
+                          Image.network(
+                            data[index].image,
+                            height: 100,
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                data[index].name,
+                                style: TextThemes.headline_6,
+                              ),
+                              Text(data[index].description),
+                              SizedBox(
+                                height: 8,
+                                width: 200,
+                                child: LinearProgressIndicator(
+                                  value: data[index].current / data[index].max,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : Container(),
               ),
             ),
           ),

@@ -30,11 +30,11 @@ class Info extends StatelessWidget {
                     builder: (context, snapshot) {
                       return CircleAvatar(
                         radius: 59,
-                        child:
+                        foregroundImage:
                             snapshot.connectionState == ConnectionState.none ||
                                     snapshot.data == null
                                 ? null
-                                : Image.network(snapshot.data!),
+                                : NetworkImage(snapshot.data!),
                       );
                     }),
                 Positioned(
