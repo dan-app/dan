@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:dan_app/controllers/firestore_controller.dart';
+import 'package:dan_app/custom_widgets/achievement_item.dart';
 import 'package:dan_app/custom_widgets/achievements.dart';
 import 'package:dan_app/custom_widgets/friends.dart';
 import 'package:dan_app/custom_widgets/info.dart';
 import 'package:dan_app/custom_widgets/statistics.dart';
+import 'package:dan_app/data/achievement.dart';
 import 'package:dan_app/utils/delegates.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flushbar/flushbar.dart';
@@ -46,14 +48,22 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () async {
                     final pickedFile =
                         await picker.getImage(source: ImageSource.gallery);
-                    setState(() {
+                    setState(() async {
                       if (pickedFile != null) {
                         _image = File(pickedFile.path);
-                        FirestoreController.uploadAvatar(
+                        await FirestoreController.uploadAvatar(
                           _image,
                           widget.uid,
                         );
-
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: AchievementItem(achievement: Achievement(
+                          name: 'Pretty',
+                          description: 'Some description',
+                          max: 100,
+                          image:
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMaYNRvusKgxDWx1JCxh8uRP1toy0BH0XKNWK0FAD9BIDdD1QSibxtYYyEX2du0VJyelo&usqp=CAU',
+                          current: 50,
+                        ),),),);
                       } else {
                         print('No image selected.');
                       }

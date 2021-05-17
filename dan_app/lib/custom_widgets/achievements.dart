@@ -1,4 +1,5 @@
 import 'package:dan_app/controllers/firestore_controller.dart';
+import 'package:dan_app/custom_widgets/achievement_item.dart';
 import 'package:dan_app/data/achievement.dart';
 import 'package:dan_app/theme/text_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -61,33 +62,7 @@ class _AchievementsState extends State<Achievements> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: (data.length > index)
-                    ? Row(
-                        children: [
-                          Image.network(
-                            data[index].image,
-                            height: 100,
-                          ),
-                          SizedBox(
-                            width: 16,
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                data[index].name,
-                                style: TextThemes.headline_6,
-                              ),
-                              Text(data[index].description),
-                              SizedBox(
-                                height: 8,
-                                width: 200,
-                                child: LinearProgressIndicator(
-                                  value: data[index].current / data[index].max,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
+                    ? AchievementItem(achievement:data[index])
                     : Container(),
               ),
             ),

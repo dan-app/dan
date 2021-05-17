@@ -1,3 +1,4 @@
+import 'package:dan_app/data/achievement.dart';
 import 'package:dan_app/data/dan_theme.dart';
 import 'package:dan_app/data/story_group.dart';
 
@@ -82,4 +83,70 @@ List<StoryGroup> storyGroupMockup = <StoryGroup>[
     Story(storyName: 'Name'),
     Story(storyName: 'Name'),
   ]),
+];
+List<Achievement> achievementsMockup = <Achievement>[
+  Achievement(
+    name: 'Diligent',
+    description: 'Some description',
+    max: 100,
+    image:
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMaYNRvusKgxDWx1JCxh8uRP1toy0BH0XKNWK0FAD9BIDdD1QSibxtYYyEX2du0VJyelo&usqp=CAU',
+    current: 50,
+  ),
+  Achievement(
+    name: 'Experienced',
+    description: 'Some description',
+    max: 100,
+    image:
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMaYNRvusKgxDWx1JCxh8uRP1toy0BH0XKNWK0FAD9BIDdD1QSibxtYYyEX2du0VJyelo&usqp=CAU',
+    current: 50,
+  ),
+  Achievement(
+    name: 'Triumphant',
+    description: 'Some description',
+    max: 100,
+    image:
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMaYNRvusKgxDWx1JCxh8uRP1toy0BH0XKNWK0FAD9BIDdD1QSibxtYYyEX2du0VJyelo&usqp=CAU',
+    current: 50,
+  ),
+  Achievement(
+    name: 'Achievement',
+    description: 'Some description',
+    max: 100,
+    image:
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMaYNRvusKgxDWx1JCxh8uRP1toy0BH0XKNWK0FAD9BIDdD1QSibxtYYyEX2du0VJyelo&usqp=CAU',
+    current: 50,
+  ),
+  Achievement(
+    name: 'Achievement',
+    description: 'Some description',
+    max: 100,
+    image:
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMaYNRvusKgxDWx1JCxh8uRP1toy0BH0XKNWK0FAD9BIDdD1QSibxtYYyEX2du0VJyelo&usqp=CAU',
+    current: 50,
+  ),
+  Achievement(
+    name: 'Achievement',
+    description: 'Some description',
+    max: 100,
+    image:
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMaYNRvusKgxDWx1JCxh8uRP1toy0BH0XKNWK0FAD9BIDdD1QSibxtYYyEX2du0VJyelo&usqp=CAU',
+    current: 50,
+  ),
+  Achievement(
+    name: 'Achievement',
+    description: 'Some description',
+    max: 100,
+    image:
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMaYNRvusKgxDWx1JCxh8uRP1toy0BH0XKNWK0FAD9BIDdD1QSibxtYYyEX2du0VJyelo&usqp=CAU',
+    current: 50,
+  ),
+  Achievement(
+    name: 'Achievement',
+    description: 'Some description',
+    max: 100,
+    image:
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMaYNRvusKgxDWx1JCxh8uRP1toy0BH0XKNWK0FAD9BIDdD1QSibxtYYyEX2du0VJyelo&usqp=CAU',
+    current: 50,
+  ),
 ];
