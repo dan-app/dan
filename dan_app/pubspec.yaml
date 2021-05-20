@@ -18,6 +18,7 @@ dependencies:
   flutter_search_bar: ^2.1.0
   image_picker: ^0.7.5
   firebase_storage: ^8.0.6
+  dcdg: ^3.0.0
   dan_tasks:
     path: ../dan_tasks
 

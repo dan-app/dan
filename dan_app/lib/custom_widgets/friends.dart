@@ -86,7 +86,7 @@ class _FriendsState extends State<Friends> {
                                           ),
                                         ),
                                         body: ProfilePage(
-                                          friend: true,
+                                          friend: childSnap.data!,
                                           uid: uid,
                                         ),
                                       ),
@@ -139,7 +139,7 @@ class _FriendsState extends State<Friends> {
                                       builder: (context) => Scaffold(
                                         appBar: AppBar(title: Text('Subscriber'),),
                                         body: ProfilePage(
-                                          friend: true,
+                                          friend: childSnap.data!,
                                           uid: uid,
                                         ),
                                       ),

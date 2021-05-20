@@ -16,7 +16,7 @@ class SettingsPage extends StatelessWidget {
             settingsPressedCallback();
             FirebaseAuth.instance.signOut();
           },
-          child: Text('Выйти'),
+          child: Text('Sign out'),
         ),
       ),
     );

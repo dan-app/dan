@@ -115,7 +115,7 @@ class _MainPageState extends State<MainPage> {
                       ProfilePage(
                         //statisticsOpenedCallback: onStatisticsChanged,
                         uid: FirebaseAuth.instance.currentUser!.uid,
-                        friend: false,
+                        friend: '',
                       ),
                     ],
                     items: [

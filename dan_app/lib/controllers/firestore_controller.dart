@@ -34,18 +34,16 @@ class FirestoreController {
     users.doc(user.user!.uid).set(
       {
         'achievements': {
-          'champion': 0,
           'diligent': 0,
           'experienced': 0,
           'friendly': 0,
           'neat': 0,
           'pretty': 0,
           'student': 0,
-          'triumphant': 0,
+          'storyteller':0,
         },
       },
     );
-
     users
         .doc(user.user!.uid)
         .update(<String, dynamic>{
@@ -136,5 +134,21 @@ class FirestoreController {
     var link =
         await FirebaseStorage.instance.ref('uploads/$uid').getDownloadURL();
     return link;
+  }
+
+  static Future<void> updateAchievement(
+      String achievementName, int level, String uid) async {
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
+    await users.doc(FirebaseAuth.instance.currentUser!.uid).update({
+      'achievements.$achievementName': level,
+    });
+  }
+  static Future<int> getAchievementLevel(String achievementName, String uid) async {
+    final CollectionReference users =
+    FirebaseFirestore.instance.collection('users');
+    final user = await users.doc(FirebaseAuth.instance.currentUser!.uid).get();
+    return ((user.data() as Map<String, dynamic>)['achievements']
+    as Map<String, dynamic>)[achievementName] as int;
   }
 }

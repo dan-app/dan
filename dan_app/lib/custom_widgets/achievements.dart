@@ -1,10 +1,11 @@
 import 'package:dan_app/controllers/firestore_controller.dart';
 import 'package:dan_app/custom_widgets/achievement_item.dart';
 import 'package:dan_app/data/achievement.dart';
+import 'package:dan_app/data/mockup_data.dart';
 import 'package:dan_app/theme/text_theme.dart';
+import 'package:dan_app/utils/extensions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:dan_app/utils/extensions.dart';
 
 class Achievements extends StatefulWidget {
   @override
@@ -32,11 +33,10 @@ class _AchievementsState extends State<Achievements> {
           data.add(
             Achievement(
               name: key.capitalize(),
-              description: 'Current level: $value',
-              max: 100,
+              description: achievementDescriptions[key]!,
+              level: value as int,
               image:
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMaYNRvusKgxDWx1JCxh8uRP1toy0BH0XKNWK0FAD9BIDdD1QSibxtYYyEX2du0VJyelo&usqp=CAU',
-              current: 50,
+                  'https://www.shareicon.net/data/512x512/2016/12/19/863777_win_512x512.png',
             ),
           );
         },
@@ -59,10 +59,15 @@ class _AchievementsState extends State<Achievements> {
             physics: NeverScrollableScrollPhysics(),
             itemCount: _itemCount,
             itemBuilder: (context, index) => Card(
+              color: (data.length > index)
+                  ? data[index].level == 0
+                      ? Colors.grey
+                      : Colors.white
+                  : Colors.white,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: (data.length > index)
-                    ? AchievementItem(achievement:data[index])
+                    ? AchievementItem(achievement: data[index])
                     : Container(),
               ),
             ),
@@ -72,7 +77,7 @@ class _AchievementsState extends State<Achievements> {
           onPressed: () {
             setState(
               () {
-                _itemCount = _itemCount == 3 ? 8 : 3;
+                _itemCount = _itemCount == 3 ? 7 : 3;
               },
             );
           },

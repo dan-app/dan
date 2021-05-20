@@ -1,15 +1,14 @@
 import 'dart:io';
 
 import 'package:dan_app/controllers/firestore_controller.dart';
-import 'package:dan_app/custom_widgets/achievement_item.dart';
 import 'package:dan_app/custom_widgets/achievements.dart';
 import 'package:dan_app/custom_widgets/friends.dart';
 import 'package:dan_app/custom_widgets/info.dart';
+import 'package:dan_app/custom_widgets/snack_achievement.dart';
 import 'package:dan_app/custom_widgets/statistics.dart';
 import 'package:dan_app/data/achievement.dart';
 import 'package:dan_app/utils/delegates.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -24,7 +23,7 @@ class ProfilePage extends StatefulWidget {
     required this.friend,
   });
 
-  final bool friend;
+  final String friend;
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -43,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (!widget.friend)
+              if (widget.friend == '')
                 Info(
                   onTap: () async {
                     final pickedFile =
@@ -55,21 +54,36 @@ class _ProfilePageState extends State<ProfilePage> {
                           _image,
                           widget.uid,
                         );
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: AchievementItem(achievement: Achievement(
-                          name: 'Pretty',
-                          description: 'Some description',
-                          max: 100,
-                          image:
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMaYNRvusKgxDWx1JCxh8uRP1toy0BH0XKNWK0FAD9BIDdD1QSibxtYYyEX2du0VJyelo&usqp=CAU',
-                          current: 50,
-                        ),),),);
+                        int level =
+                            await FirestoreController.getAchievementLevel(
+                                'pretty', widget.uid);
+                        setState(() {});
+                        if (level == 0) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.green,
+                              content: AchievementSnack(
+                                achievement: Achievement(
+                                  name: 'Pretty',
+                                  description: 'Some description',
+                                  level: 1,
+                                  image:
+                                      'https://www.shareicon.net/data/512x512/2016/12/19/863777_win_512x512.png',
+                                ),
+                              ),
+                            ),
+                          );
+                          FirestoreController.updateAchievement(
+                              'pretty', 1, widget.uid);
+                        }
                       } else {
                         print('No image selected.');
                       }
                     });
                   },
-                  name: FirebaseAuth.instance.currentUser!.email!,
+                  name: widget.friend == ''
+                      ? FirebaseAuth.instance.currentUser!.email!
+                      : widget.friend,
                   uid: widget.uid,
                 )
               else
@@ -98,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Friends(
                 uid: widget.uid,
               ),
-              if (!widget.friend)
+              if (widget.friend == '')
                 ElevatedButton(
                   onPressed: () async {
                     var result = await showSearch(
@@ -108,6 +122,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     if (result != MapEntry('', '')) {
                       FirestoreController.addFriend(result!.key, result.value);
                     }
+
+                    setState(() {});
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Friend Added!'),
+                      ),
+                    );
                   },
                   child: Text('Add Friend'),
                 ),

@@ -3,5 +3,5 @@ class Friend {
 
   String uid;
 
-  Friend({required this.name, required this.uid});
+  Friend({required this.name, required this.uid});  
 }
