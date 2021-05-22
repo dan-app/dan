@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 class Statistics extends StatelessWidget {
   var items = <StatisticsItem>[
     StatisticsItem(
-      text: 'Очки опыта',
+      text: 'Experience points',
       icon: Icons.accessibility_new_outlined,
       mainText: 1000.toString(),
     ),
     StatisticsItem(
-      text: 'Текущая лига',
-      icon: Icons.account_balance,
-      mainText: "Бронзовая",
+      text: 'Stories passed',
+      icon: Icons.auto_stories,
+      mainText: 1.toString(),
     ),
   ];
 
@@ -34,7 +34,7 @@ class Statistics extends StatelessWidget {
                 Radius.circular(20),
               ),
               border: Border.all(
-                color: Colors.grey,
+                color: Colors.blue,
                 width: 2.0,
               ),
             ),

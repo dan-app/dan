@@ -40,7 +40,7 @@ class FirestoreController {
           'neat': 0,
           'pretty': 0,
           'student': 0,
-          'storyteller':0,
+          'storyteller': 0,
         },
       },
     );
@@ -58,7 +58,7 @@ class FirestoreController {
   static Future<Map<String, dynamic>> getAchievements(String uid) async {
     final CollectionReference users =
         FirebaseFirestore.instance.collection('users');
-    final user = await users.doc(FirebaseAuth.instance.currentUser!.uid).get();
+    final user = await users.doc(uid).get();
     return (user.data() as Map<String, dynamic>)['achievements']
         as Map<String, dynamic>;
   }
@@ -80,7 +80,7 @@ class FirestoreController {
   static Future<Map<String, dynamic>> getUserData(String uid) async {
     final CollectionReference users =
         FirebaseFirestore.instance.collection('users');
-    final user = await users.doc(FirebaseAuth.instance.currentUser!.uid).get();
+    final user = await users.doc(uid).get();
     return user.data() as Map<String, dynamic>;
   }
 
@@ -131,8 +131,17 @@ class FirestoreController {
   }
 
   static Future<String> getAvatarLink(String uid) async {
-    var link =
-        await FirebaseStorage.instance.ref('uploads/$uid').getDownloadURL();
+    String link;
+    var result = await getAchievementLevel('pretty', uid);
+    if (result == 1) {
+      link =
+          await FirebaseStorage.instance.ref('uploads/$uid').getDownloadURL();
+    } else {
+      link = await FirebaseStorage.instance
+          .ref('uploads/user.png')
+          .getDownloadURL();
+    }
+
     return link;
   }
 
@@ -140,15 +149,17 @@ class FirestoreController {
       String achievementName, int level, String uid) async {
     final CollectionReference users =
         FirebaseFirestore.instance.collection('users');
-    await users.doc(FirebaseAuth.instance.currentUser!.uid).update({
+    await users.doc(uid).update({
       'achievements.$achievementName': level,
     });
   }
-  static Future<int> getAchievementLevel(String achievementName, String uid) async {
+
+  static Future<int> getAchievementLevel(
+      String achievementName, String uid) async {
     final CollectionReference users =
-    FirebaseFirestore.instance.collection('users');
-    final user = await users.doc(FirebaseAuth.instance.currentUser!.uid).get();
+        FirebaseFirestore.instance.collection('users');
+    final user = await users.doc(uid).get();
     return ((user.data() as Map<String, dynamic>)['achievements']
-    as Map<String, dynamic>)[achievementName] as int;
+        as Map<String, dynamic>)[achievementName] as int;
   }
 }

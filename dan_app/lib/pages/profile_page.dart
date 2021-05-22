@@ -7,8 +7,8 @@ import 'package:dan_app/custom_widgets/info.dart';
 import 'package:dan_app/custom_widgets/snack_achievement.dart';
 import 'package:dan_app/custom_widgets/statistics.dart';
 import 'package:dan_app/data/achievement.dart';
+import 'package:dan_app/theme/text_theme.dart';
 import 'package:dan_app/utils/delegates.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -65,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               content: AchievementSnack(
                                 achievement: Achievement(
                                   name: 'Pretty',
-                                  description: 'Some description',
+                                  description: 'Upload an avatar.',
                                   level: 1,
                                   image:
                                       'https://www.shareicon.net/data/512x512/2016/12/19/863777_win_512x512.png',
@@ -81,22 +81,39 @@ class _ProfilePageState extends State<ProfilePage> {
                       }
                     });
                   },
-                  name: widget.friend == ''
-                      ? FirebaseAuth.instance.currentUser!.email!
-                      : widget.friend,
                   uid: widget.uid,
                 )
               else
                 FutureBuilder<String>(
                   future: FirestoreController.getAvatarLink(widget.uid),
                   builder: (context, snapshot) {
-                    return CircleAvatar(
-                      radius: 59,
-                      foregroundImage:
-                          snapshot.connectionState == ConnectionState.none ||
-                                  snapshot.data == null
-                              ? null
-                              : NetworkImage(snapshot.data!),
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 24,
+                          ),
+                          child: Center(
+                            child: CircleAvatar(
+                              radius: 59,
+                              foregroundImage: snapshot.connectionState ==
+                                          ConnectionState.none ||
+                                      snapshot.data == null
+                                  ? null
+                                  : NetworkImage(snapshot.data!),
+                            ),
+                          ),
+                        ),
+                        FutureBuilder<String>(
+                            future:
+                                FirestoreController.getUsernameById(widget.uid),
+                            builder: (context, snapshot) {
+                              return Text(
+                                snapshot.data!,
+                                style: TextThemes.headline_5,
+                              );
+                            }),
+                      ],
                     );
                   },
                 ),
@@ -132,7 +149,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                   child: Text('Add Friend'),
                 ),
-              Achievements(),
+              SizedBox(
+                height: 16,
+              ),
+              Achievements(
+                uid: widget.uid,
+              ),
             ],
           ),
         ),

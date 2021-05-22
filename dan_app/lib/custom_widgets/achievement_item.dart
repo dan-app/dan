@@ -1,5 +1,6 @@
 import 'package:dan_app/data/achievement.dart';
 import 'package:dan_app/theme/text_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AchievementItem extends StatelessWidget {
@@ -18,14 +19,19 @@ class AchievementItem extends StatelessWidget {
         SizedBox(
           width: 16,
         ),
-        Center(
+        Expanded(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 achievement.name,
+                textAlign: TextAlign.center,
                 style: TextThemes.headline_6,
               ),
-              Text(achievement.description),
+              Text(
+                achievement.description,
+                textAlign: TextAlign.center,
+              ),
               /* SizedBox(
                 height: 8,
                 width: 200,

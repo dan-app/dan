@@ -3,11 +3,10 @@ import 'package:dan_app/data/dan_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final List<DanTheme> data;
   final Function taskOpenedCallback;
   final Function theoryOpenedCallback;
-  late Map<String, int> docs;
 
   HomePage({
     required this.data,
@@ -15,18 +14,39 @@ class HomePage extends StatelessWidget {
     required this.theoryOpenedCallback,
   });
 
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late Map<String, int> docs = {
+    'creation': 3,
+    'selection': 4,
+    'grouping': 0,
+    'merging': 0,
+    'plotting': 0,
+  };
+
   void setDocs() async {
-    docs = await FirestoreController.getUserProgress(
+    var docs = await FirestoreController.getUserProgress(
       FirebaseAuth.instance.currentUser!.uid,
     );
+
+    setState(() {
+      //this.docs = docs;
+    });
+  }
+
+  @override
+  void initState() {
+    setDocs();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    setDocs();
-
     return ListView(
-      children: data
+      children: widget.data
           .map(
             (e) => Card(
               child: ListTile(
@@ -35,13 +55,14 @@ class HomePage extends StatelessWidget {
                     context: context,
                     builder: (_) => AlertDialog(
                       title: Text(e.name),
-                      content: Text("Basics of data analysis"),
+                      content: Text(
+                          "Using statistics functions, splitting data on some criteria and aggregating group values"),
                       actions: <Widget>[
                         Column(
                           children: [
                             TextButton(
                               onPressed: () {
-                                theoryOpenedCallback(e.id);
+                                widget.theoryOpenedCallback(e.id);
                               },
                               child: Text('Theory'),
                             ),
@@ -57,7 +78,7 @@ class HomePage extends StatelessWidget {
                                     onPressed: () {
                                       Navigator.of(context, rootNavigator: true)
                                           .pop();
-                                      taskOpenedCallback(
+                                      widget.taskOpenedCallback(
                                         taskNumber: i,
                                         themeId: e.id,
                                       );
@@ -71,7 +92,7 @@ class HomePage extends StatelessWidget {
                                                 : i == docs[e.id]
                                                     ? Colors.lightBlue
                                                     : Colors.grey
-                                            : i  == 0
+                                            : i == 0
                                                 ? Colors.lightBlue
                                                 : Colors.grey,
                                       ),
@@ -86,8 +107,17 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 },
-                leading: FlutterLogo(),
-                title: Text(e.name),
+                leading: Icon(e.icon),
+                title: Row(
+                  children: [
+                    Text(e.name),
+                    Spacer(),
+                    if (docs.isNotEmpty)
+                      Text('${docs[e.id]}/${e.tasksCount}')
+                    else
+                      Text(''),
+                  ],
+                ),
               ),
             ),
           )

@@ -4,12 +4,10 @@ import 'package:dan_app/theme/text_theme.dart';
 import 'package:flutter/material.dart';
 
 class Info extends StatelessWidget {
-  final String name;
   final String uid;
   final void Function() onTap;
 
   const Info({
-    required this.name,
     required this.uid,
     required this.onTap,
   });
@@ -45,7 +43,7 @@ class Info extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: ColorPalette.violet_500,
+                        color: Colors.blue,
                         borderRadius: BorderRadius.all(Radius.circular(200)),
                         border: Border.all(
                           width: 1.5,
@@ -61,10 +59,14 @@ class Info extends StatelessWidget {
             ),
           ),
         ),
-        Text(
-          name,
-          style: TextThemes.subTitle_1,
-        ),
+        FutureBuilder<String>(
+            future: FirestoreController.getUsernameById(uid),
+            builder: (context, snapshot) {
+              return Text(
+                snapshot.data!,
+                style: TextThemes.headline_5,
+              );
+            }),
       ],
     );
   }

@@ -4,10 +4,11 @@ import 'package:dan_app/data/achievement.dart';
 import 'package:dan_app/data/mockup_data.dart';
 import 'package:dan_app/theme/text_theme.dart';
 import 'package:dan_app/utils/extensions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Achievements extends StatefulWidget {
+  final String uid;
+  const Achievements({required this.uid});
   @override
   _AchievementsState createState() => _AchievementsState();
 }
@@ -19,14 +20,13 @@ class _AchievementsState extends State<Achievements> {
 
   @override
   void initState() {
-    getAchievements();
+    getAchievements(widget.uid);
 
     super.initState();
   }
 
-  Future<void> getAchievements() async {
-    final achievements = await FirestoreController.getAchievements(
-        FirebaseAuth.instance.currentUser!.uid);
+  Future<void> getAchievements(String uid) async {
+    final achievements = await FirestoreController.getAchievements(uid);
     setState(() {
       achievements.forEach(
         (String key, dynamic value) {
@@ -49,9 +49,14 @@ class _AchievementsState extends State<Achievements> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          'Achievements',
-          style: TextThemes.headline_6,
+        Center(
+          child: Text(
+            'Achievements',
+            style: TextThemes.headline_6,
+          ),
+        ),
+        SizedBox(
+          height: 16,
         ),
         SizedBox(
           height: _itemCount * 125.0,
@@ -61,14 +66,21 @@ class _AchievementsState extends State<Achievements> {
             itemBuilder: (context, index) => Card(
               color: (data.length > index)
                   ? data[index].level == 0
-                      ? Colors.grey
+                      ? Colors.white54
                       : Colors.white
                   : Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: (data.length > index)
-                    ? AchievementItem(achievement: data[index])
-                    : Container(),
+              child: Opacity(
+                opacity: (data.length > index)
+                    ? data[index].level == 0
+                        ? 0.3
+                        : 1
+                    : 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: (data.length > index)
+                      ? AchievementItem(achievement: data[index])
+                      : Container(),
+                ),
               ),
             ),
           ),

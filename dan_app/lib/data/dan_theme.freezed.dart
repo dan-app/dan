@@ -17,11 +17,15 @@ class _$DanThemeTearOff {
   const _$DanThemeTearOff();
 
   _DanTheme call(
-      {required String id, required String name, required int tasksCount}) {
+      {required String id,
+      required String name,
+      required int tasksCount,
+      required IconData icon}) {
     return _DanTheme(
       id: id,
       name: name,
       tasksCount: tasksCount,
+      icon: icon,
     );
   }
 }
@@ -34,6 +38,7 @@ mixin _$DanTheme {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int get tasksCount => throw _privateConstructorUsedError;
+  IconData get icon => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DanThemeCopyWith<DanTheme> get copyWith =>
@@ -44,7 +49,7 @@ mixin _$DanTheme {
 abstract class $DanThemeCopyWith<$Res> {
   factory $DanThemeCopyWith(DanTheme value, $Res Function(DanTheme) then) =
       _$DanThemeCopyWithImpl<$Res>;
-  $Res call({String id, String name, int tasksCount});
+  $Res call({String id, String name, int tasksCount, IconData icon});
 }
 
 /// @nodoc
@@ -60,6 +65,7 @@ class _$DanThemeCopyWithImpl<$Res> implements $DanThemeCopyWith<$Res> {
     Object? id = freezed,
     Object? name = freezed,
     Object? tasksCount = freezed,
+    Object? icon = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -74,6 +80,10 @@ class _$DanThemeCopyWithImpl<$Res> implements $DanThemeCopyWith<$Res> {
           ? _value.tasksCount
           : tasksCount // ignore: cast_nullable_to_non_nullable
               as int,
+      icon: icon == freezed
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as IconData,
     ));
   }
 }
@@ -83,7 +93,7 @@ abstract class _$DanThemeCopyWith<$Res> implements $DanThemeCopyWith<$Res> {
   factory _$DanThemeCopyWith(_DanTheme value, $Res Function(_DanTheme) then) =
       __$DanThemeCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String name, int tasksCount});
+  $Res call({String id, String name, int tasksCount, IconData icon});
 }
 
 /// @nodoc
@@ -100,6 +110,7 @@ class __$DanThemeCopyWithImpl<$Res> extends _$DanThemeCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = freezed,
     Object? tasksCount = freezed,
+    Object? icon = freezed,
   }) {
     return _then(_DanTheme(
       id: id == freezed
@@ -114,6 +125,10 @@ class __$DanThemeCopyWithImpl<$Res> extends _$DanThemeCopyWithImpl<$Res>
           ? _value.tasksCount
           : tasksCount // ignore: cast_nullable_to_non_nullable
               as int,
+      icon: icon == freezed
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as IconData,
     ));
   }
 }
@@ -121,7 +136,10 @@ class __$DanThemeCopyWithImpl<$Res> extends _$DanThemeCopyWithImpl<$Res>
 /// @nodoc
 class _$_DanTheme with DiagnosticableTreeMixin implements _DanTheme {
   const _$_DanTheme(
-      {required this.id, required this.name, required this.tasksCount});
+      {required this.id,
+      required this.name,
+      required this.tasksCount,
+      required this.icon});
 
   @override
   final String id;
@@ -129,10 +147,12 @@ class _$_DanTheme with DiagnosticableTreeMixin implements _DanTheme {
   final String name;
   @override
   final int tasksCount;
+  @override
+  final IconData icon;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DanTheme(id: $id, name: $name, tasksCount: $tasksCount)';
+    return 'DanTheme(id: $id, name: $name, tasksCount: $tasksCount, icon: $icon)';
   }
 
   @override
@@ -142,7 +162,8 @@ class _$_DanTheme with DiagnosticableTreeMixin implements _DanTheme {
       ..add(DiagnosticsProperty('type', 'DanTheme'))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('tasksCount', tasksCount));
+      ..add(DiagnosticsProperty('tasksCount', tasksCount))
+      ..add(DiagnosticsProperty('icon', icon));
   }
 
   @override
@@ -155,7 +176,9 @@ class _$_DanTheme with DiagnosticableTreeMixin implements _DanTheme {
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.tasksCount, tasksCount) ||
                 const DeepCollectionEquality()
-                    .equals(other.tasksCount, tasksCount)));
+                    .equals(other.tasksCount, tasksCount)) &&
+            (identical(other.icon, icon) ||
+                const DeepCollectionEquality().equals(other.icon, icon)));
   }
 
   @override
@@ -163,7 +186,8 @@ class _$_DanTheme with DiagnosticableTreeMixin implements _DanTheme {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(tasksCount);
+      const DeepCollectionEquality().hash(tasksCount) ^
+      const DeepCollectionEquality().hash(icon);
 
   @JsonKey(ignore: true)
   @override
@@ -175,7 +199,8 @@ abstract class _DanTheme implements DanTheme {
   const factory _DanTheme(
       {required String id,
       required String name,
-      required int tasksCount}) = _$_DanTheme;
+      required int tasksCount,
+      required IconData icon}) = _$_DanTheme;
 
   @override
   String get id => throw _privateConstructorUsedError;
@@ -183,6 +208,8 @@ abstract class _DanTheme implements DanTheme {
   String get name => throw _privateConstructorUsedError;
   @override
   int get tasksCount => throw _privateConstructorUsedError;
+  @override
+  IconData get icon => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$DanThemeCopyWith<_DanTheme> get copyWith =>
